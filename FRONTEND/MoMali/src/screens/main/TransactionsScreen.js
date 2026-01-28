@@ -8,31 +8,34 @@ import {
   RefreshControl,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Modal
+  ScrollView
 } from 'react-native';
+import FilterModal from '../../components/FilterModal';
 
 const TransactionsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [dateRange, setDateRange] = useState('This Month');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({
+    pocket: null,
+    categories: [],
+    dateRange: { preset: 'month' },
+    type: 'all'
+  });
 
-  const categories = ['All', 'Food', 'Transport', 'Entertainment', 'Bills', 'Shopping', 'Income'];
-  const dateRanges = ['This Week', 'This Month', 'Last Month', 'Last 3 Months'];
+
 
   const mockTransactions = [
-    { id: 1, title: 'Grocery Store', amount: -45.50, category: 'Food', date: '2024-01-15', time: '14:30' },
-    { id: 2, title: 'Salary Deposit', amount: 2500.00, category: 'Income', date: '2024-01-15', time: '09:00' },
-    { id: 3, title: 'Netflix Subscription', amount: -15.99, category: 'Entertainment', date: '2024-01-14', time: '12:00' },
-    { id: 4, title: 'Gas Station', amount: -35.20, category: 'Transport', date: '2024-01-14', time: '08:15' },
-    { id: 5, title: 'Coffee Shop', amount: -4.50, category: 'Food', date: '2024-01-13', time: '16:45' },
-    { id: 6, title: 'Online Shopping', amount: -89.99, category: 'Shopping', date: '2024-01-13', time: '20:30' },
-    { id: 7, title: 'Electricity Bill', amount: -120.00, category: 'Bills', date: '2024-01-12', time: '11:00' },
-    { id: 8, title: 'Restaurant', amount: -67.80, category: 'Food', date: '2024-01-12', time: '19:15' },
+    { id: 1, title: 'Grocery Store', amount: -45.50, category: 'Food', date: '2024-01-15', time: '14:30', pocketId: 1 },
+    { id: 2, title: 'Salary Deposit', amount: 2500.00, category: 'Income', date: '2024-01-15', time: '09:00', pocketId: null },
+    { id: 3, title: 'Netflix Subscription', amount: -15.99, category: 'Entertainment', date: '2024-01-14', time: '12:00', pocketId: 2 },
+    { id: 4, title: 'Gas Station', amount: -35.20, category: 'Transport', date: '2024-01-14', time: '08:15', pocketId: 1 },
+    { id: 5, title: 'Coffee Shop', amount: -4.50, category: 'Food', date: '2024-01-13', time: '16:45', pocketId: 1 },
+    { id: 6, title: 'Online Shopping', amount: -89.99, category: 'Shopping', date: '2024-01-13', time: '20:30', pocketId: 1 },
+    { id: 7, title: 'Electricity Bill', amount: -120.00, category: 'Bills', date: '2024-01-12', time: '11:00', pocketId: 2 },
+    { id: 8, title: 'Restaurant', amount: -67.80, category: 'Food', date: '2024-01-12', time: '19:15', pocketId: 1 },
   ];
 
   useEffect(() => {
@@ -49,10 +52,17 @@ const TransactionsScreen = () => {
 
   const filteredTransactions = transactions.filter(transaction => {
     const matchesSearch = transaction.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategories.length === 0 || 
-                           selectedCategories.includes('All') || 
-                           selectedCategories.includes(transaction.category);
-    return matchesSearch && matchesCategory;
+    
+    const matchesCategory = activeFilters.categories.length === 0 || 
+                           activeFilters.categories.includes(transaction.category);
+    
+    const matchesType = activeFilters.type === 'all' || 
+                       (activeFilters.type === 'income' && transaction.amount > 0) ||
+                       (activeFilters.type === 'spending' && transaction.amount < 0);
+    
+    const matchesPocket = !activeFilters.pocket || transaction.pocketId === activeFilters.pocket.id;
+    
+    return matchesSearch && matchesCategory && matchesType && matchesPocket;
   });
 
   const groupedTransactions = filteredTransactions.reduce((groups, transaction) => {
@@ -68,15 +78,17 @@ const TransactionsScreen = () => {
   const monthlyIncome = filteredTransactions.filter(t => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
   const monthlyExpenses = filteredTransactions.filter(t => t.amount < 0).reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
-  const toggleCategory = (category) => {
-    if (category === 'All') {
-      setSelectedCategories(['All']);
-    } else {
-      const newCategories = selectedCategories.includes(category)
-        ? selectedCategories.filter(c => c !== category)
-        : [...selectedCategories.filter(c => c !== 'All'), category];
-      setSelectedCategories(newCategories);
-    }
+  const handleApplyFilters = (filters) => {
+    setActiveFilters(filters);
+  };
+
+  const getActiveFilterCount = () => {
+    let count = 0;
+    if (activeFilters.pocket) count++;
+    if (activeFilters.categories.length > 0) count++;
+    if (activeFilters.type !== 'all') count++;
+    if (activeFilters.dateRange.preset !== 'month') count++;
+    return count;
   };
 
   const getCategoryIcon = (category) => {
@@ -155,37 +167,36 @@ const TransactionsScreen = () => {
           onChangeText={setSearchQuery}
         />
         <TouchableOpacity 
-          style={styles.filterButton}
+          style={[styles.filterButton, getActiveFilterCount() > 0 && styles.filterButtonActive]}
           onPress={() => setShowFilterModal(true)}
         >
           <Text style={styles.filterButtonText}>⚙️</Text>
+          {getActiveFilterCount() > 0 && (
+            <View style={styles.filterBadge}>
+              <Text style={styles.filterBadgeText}>{getActiveFilterCount()}</Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
 
-      {/* Date Range Selector */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.dateRangeContainer}>
-        {dateRanges.map(range => (
-          <TouchableOpacity
-            key={range}
-            style={[
-              styles.dateRangeButton,
-              { backgroundColor: dateRange === range ? '#2196F3' : '#f0f0f0' }
-            ]}
-            onPress={() => setDateRange(range)}
+      {/* Active Filters Display */}
+      {getActiveFilterCount() > 0 && (
+        <View style={styles.activeFiltersContainer}>
+          <Text style={styles.activeFiltersText}>
+            {getActiveFilterCount()} filter{getActiveFilterCount() > 1 ? 's' : ''} active
+          </Text>
+          <TouchableOpacity 
+            onPress={() => setActiveFilters({ pocket: null, categories: [], dateRange: { preset: 'month' }, type: 'all' })}
+            style={styles.clearFiltersButton}
           >
-            <Text style={[
-              styles.dateRangeText,
-              { color: dateRange === range ? '#fff' : '#333' }
-            ]}>
-              {range}
-            </Text>
+            <Text style={styles.clearFiltersText}>Clear All</Text>
           </TouchableOpacity>
-        ))}
-      </ScrollView>
+        </View>
+      )}
 
       {/* Monthly Summary Card */}
       <View style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>{dateRange} Summary</Text>
+        <Text style={styles.summaryTitle}>Filtered Summary</Text>
         <View style={styles.summaryRow}>
           <View style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Income</Text>
@@ -211,28 +222,7 @@ const TransactionsScreen = () => {
         </View>
       </View>
 
-      {/* Category Filter Chips */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
-        {categories.map(category => (
-          <TouchableOpacity
-            key={category}
-            style={[
-              styles.categoryChip,
-              { 
-                backgroundColor: selectedCategories.includes(category) ? '#2196F3' : '#f0f0f0' 
-              }
-            ]}
-            onPress={() => toggleCategory(category)}
-          >
-            <Text style={[
-              styles.categoryChipText,
-              { color: selectedCategories.includes(category) ? '#fff' : '#333' }
-            ]}>
-              {category}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+
 
       {/* Transactions List */}
       <FlatList
@@ -247,24 +237,12 @@ const TransactionsScreen = () => {
       />
 
       {/* Filter Modal */}
-      <Modal
+      <FilterModal
         visible={showFilterModal}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setShowFilterModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Filter Options</Text>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowFilterModal(false)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setShowFilterModal(false)}
+        onApply={handleApplyFilters}
+        initialFilters={activeFilters}
+      />
     </SafeAreaView>
   );
 };
@@ -306,24 +284,55 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+  },
+  filterButtonActive: {
+    backgroundColor: '#1976D2',
+  },
+  filterBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: '#FF5722',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filterBadgeText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
   filterButtonText: {
     fontSize: 16,
   },
-  dateRangeContainer: {
-    backgroundColor: '#fff',
+  activeFiltersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#E3F2FD',
     paddingHorizontal: 15,
-    paddingBottom: 15,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
-  dateRangeButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  dateRangeText: {
+  activeFiltersText: {
     fontSize: 14,
+    color: '#1976D2',
     fontWeight: '500',
+  },
+  clearFiltersButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#1976D2',
+    borderRadius: 15,
+  },
+  clearFiltersText: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: '600',
   },
   summaryCard: {
     backgroundColor: '#fff',
@@ -353,20 +362,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  categoryContainer: {
-    paddingHorizontal: 15,
-    marginBottom: 10,
-  },
-  categoryChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  categoryChipText: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
+
   transactionsList: {
     flex: 1,
   },
@@ -437,33 +433,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 12,
-    width: '80%',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  closeButton: {
-    backgroundColor: '#2196F3',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  closeButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
+
 });
 
 export default TransactionsScreen;
