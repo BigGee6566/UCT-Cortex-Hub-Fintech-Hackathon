@@ -5,73 +5,26 @@
 
 import { Platform } from 'react-native';
 
-const primary = '#1E3A8A';
-const secondary = '#10B981';
-const accent = '#F59E0B';
-const error = '#EF4444';
-const success = '#22C55E';
-const background = '#F9FAFB';
-const card = '#FFFFFF';
-const text = '#0F172A';
-const mutedText = '#475569';
-const border = '#E2E8F0';
+const tintColorLight = '#0a7ea4';
+const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    primary,
-    secondary,
-    accent,
-    error,
-    success,
-    background,
-    card,
-    text,
-    mutedText,
-    border,
-    icon: mutedText,
-    tint: primary,
-    tabIconDefault: mutedText,
-    tabIconSelected: primary,
-    shadow: 'rgba(15, 23, 42, 0.12)',
+    text: '#11181C',
+    background: '#fff',
+    tint: tintColorLight,
+    icon: '#687076',
+    tabIconDefault: '#687076',
+    tabIconSelected: tintColorLight,
   },
   dark: {
-    primary: '#93C5FD',
-    secondary: '#34D399',
-    accent: '#FBBF24',
-    error: '#F87171',
-    success: '#4ADE80',
-    background: '#0F172A',
-    card: '#111827',
-    text: '#E2E8F0',
-    mutedText: '#94A3B8',
-    border: '#1F2937',
-    icon: '#94A3B8',
-    tint: '#93C5FD',
-    tabIconDefault: '#94A3B8',
-    tabIconSelected: '#93C5FD',
-    shadow: 'rgba(15, 23, 42, 0.6)',
+    text: '#ECEDEE',
+    background: '#151718',
+    tint: tintColorDark,
+    icon: '#9BA1A6',
+    tabIconDefault: '#9BA1A6',
+    tabIconSelected: tintColorDark,
   },
-};
-
-export const Radii = {
-  card: 12,
-  button: 8,
-  input: 8,
-  pill: 999,
-};
-
-export const Spacing = {
-  xs: 8,
-  sm: 12,
-  md: 16,
-  lg: 24,
-};
-
-export const Typography = {
-  header: 26,
-  title: 22,
-  body: 16,
-  small: 14,
 };
 
 export const Fonts = Platform.select({
