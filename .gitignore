@@ -1,0 +1,2 @@
+# Prevent accidental root lockfile; project lockfile lives in FRONTEND/MoMali
+/package-lock.json

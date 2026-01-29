@@ -8,7 +8,7 @@ export default function BankConnectionScreen() {
     router.push('/bank-providers');
   }
   function skipToDashboard() {
-    router.replace('/(tabs)');
+    router.replace('/(tabs)/index');
   }
 
   return (
