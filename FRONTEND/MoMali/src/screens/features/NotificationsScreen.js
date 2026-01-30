@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const NotificationsScreen = ({ navigation }) => {
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -192,29 +193,29 @@ const NotificationsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   backButton: {
     fontSize: 24,
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   clearButton: {
     fontSize: 16,
-    color: '#FF5722',
+    color: Colors.light.error,
     fontWeight: '600',
   },
   unreadBanner: {
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   unreadText: {
     fontSize: 14,
@@ -230,29 +231,29 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   filterContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   filterChip: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     marginRight: 10,
   },
   selectedFilter: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
   },
   filterText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   selectedFilterText: {
-    color: '#fff',
+    color: Colors.light.text,
   },
   notificationsList: {
     flex: 1,
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
   notificationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 15,
     marginHorizontal: 15,
     marginVertical: 5,
@@ -269,14 +270,14 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
   },
   unreadItem: {
-    borderLeftColor: '#2196F3',
+    borderLeftColor: Colors.light.primary,
     backgroundColor: '#FAFAFA',
   },
   notificationIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
   notificationTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   unreadTitle: {
@@ -298,18 +299,18 @@ const styles = StyleSheet.create({
   },
   notificationMessage: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 4,
   },
   notificationTime: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.light.mutedText,
   },
   unreadDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     marginLeft: 10,
   },
   emptyState: {
@@ -324,12 +325,12 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
   },
   emptyMessage: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
   },
 });

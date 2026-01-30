@@ -9,6 +9,7 @@ import {
   Slider,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const BudgetPlannerScreen = () => {
   const [hasChanges, setHasChanges] = useState(false);
@@ -17,13 +18,13 @@ const BudgetPlannerScreen = () => {
     income: 15000,
     totalBudget: 12500,
     categories: [
-      { id: 1, name: 'Food & Dining', budget: 3000, spent: 2450, color: '#4CAF50' },
-      { id: 2, name: 'Transportation', budget: 1500, spent: 1200, color: '#2196F3' },
-      { id: 3, name: 'Bills & Utilities', budget: 2500, spent: 2100, color: '#FF9800' },
-      { id: 4, name: 'Entertainment', budget: 800, spent: 650, color: '#9C27B0' },
-      { id: 5, name: 'Shopping', budget: 1200, spent: 980, color: '#FF5722' },
+      { id: 1, name: 'Food & Dining', budget: 3000, spent: 2450, color: Colors.light.primary },
+      { id: 2, name: 'Transportation', budget: 1500, spent: 1200, color: Colors.light.primary },
+      { id: 3, name: 'Bills & Utilities', budget: 2500, spent: 2100, color: Colors.light.secondary },
+      { id: 4, name: 'Entertainment', budget: 800, spent: 650, color: Colors.light.secondary },
+      { id: 5, name: 'Shopping', budget: 1200, spent: 980, color: Colors.light.error },
       { id: 6, name: 'Healthcare', budget: 600, spent: 320, color: '#607D8B' },
-      { id: 7, name: 'Savings', budget: 2900, spent: 2900, color: '#4CAF50' }
+      { id: 7, name: 'Savings', budget: 2900, spent: 2900, color: Colors.light.primary }
     ]
   });
 
@@ -49,9 +50,9 @@ const BudgetPlannerScreen = () => {
   const budgetUtilization = (totalSpent / budgetData.totalBudget) * 100;
 
   const getBudgetStatus = () => {
-    if (budgetUtilization <= 70) return { text: 'On Track', color: '#4CAF50' };
-    if (budgetUtilization <= 90) return { text: 'Warning', color: '#FF9800' };
-    return { text: 'Over Budget', color: '#FF5722' };
+    if (budgetUtilization <= 70) return { text: 'On Track', color: Colors.light.primary };
+    if (budgetUtilization <= 90) return { text: 'Warning', color: Colors.light.secondary };
+    return { text: 'Over Budget', color: Colors.light.error };
   };
 
   const budgetStatus = getBudgetStatus();
@@ -82,20 +83,20 @@ const BudgetPlannerScreen = () => {
           <View style={styles.chartBar}>
             <View style={[styles.chartSegment, { 
               width: `${expensePercentage}%`, 
-              backgroundColor: '#FF5722' 
+              backgroundColor: Colors.light.error 
             }]} />
             <View style={[styles.chartSegment, { 
               width: `${savingsPercentage}%`, 
-              backgroundColor: '#4CAF50' 
+              backgroundColor: Colors.light.primary 
             }]} />
           </View>
           <View style={styles.chartLegend}>
             <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: '#FF5722' }]} />
+              <View style={[styles.legendDot, { backgroundColor: Colors.light.error }]} />
               <Text style={styles.legendText}>Expenses: R{totalSpent.toFixed(0)}</Text>
             </View>
             <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
+              <View style={[styles.legendDot, { backgroundColor: Colors.light.primary }]} />
               <Text style={styles.legendText}>Savings: R{(budgetData.income - totalSpent).toFixed(0)}</Text>
             </View>
           </View>
@@ -128,14 +129,14 @@ const BudgetPlannerScreen = () => {
                       styles.progressFill, 
                       { 
                         width: `${Math.min(100, percentage)}%`,
-                        backgroundColor: isOverBudget ? '#FF5722' : category.color
+                        backgroundColor: isOverBudget ? Colors.light.error : category.color
                       }
                     ]} 
                   />
                 </View>
                 <Text style={[
                   styles.progressText,
-                  { color: isOverBudget ? '#FF5722' : '#666' }
+                  { color: isOverBudget ? Colors.light.error : Colors.light.mutedText }
                 ]}>
                   {percentage.toFixed(0)}%
                 </Text>
@@ -186,7 +187,7 @@ const BudgetPlannerScreen = () => {
                       styles.forecastSegment, 
                       { 
                         height: `${savingsHeight}%`,
-                        backgroundColor: '#4CAF50'
+                        backgroundColor: Colors.light.primary
                       }
                     ]} 
                   />
@@ -232,7 +233,7 @@ const BudgetPlannerScreen = () => {
             </View>
             <View style={styles.overviewItem}>
               <Text style={styles.overviewLabel}>Total Spent</Text>
-              <Text style={[styles.overviewValue, { color: '#FF5722' }]}>
+              <Text style={[styles.overviewValue, { color: Colors.light.error }]}>
                 R{totalSpent.toLocaleString()}
               </Text>
             </View>
@@ -242,7 +243,7 @@ const BudgetPlannerScreen = () => {
               <Text style={styles.overviewLabel}>Remaining</Text>
               <Text style={[
                 styles.overviewValue, 
-                { color: remainingBudget >= 0 ? '#4CAF50' : '#FF5722' }
+                { color: remainingBudget >= 0 ? Colors.light.primary : Colors.light.error }
               ]}>
                 R{remainingBudget.toLocaleString()}
               </Text>
@@ -280,42 +281,42 @@ const BudgetPlannerScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   paydayCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 25,
     borderRadius: 12,
     alignItems: 'center',
     borderLeftWidth: 4,
-    borderLeftColor: '#2196F3',
+    borderLeftColor: Colors.light.primary,
   },
   paydayTitle: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 10,
   },
   paydayCountdown: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#2196F3',
+    color: Colors.light.primary,
     marginBottom: 5,
   },
   paydaySubtext: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 15,
   },
   statusBadge: {
@@ -324,12 +325,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   statusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -345,16 +346,16 @@ const styles = StyleSheet.create({
   },
   overviewLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 4,
   },
   overviewValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   chartCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -362,7 +363,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   chartContainer: {
@@ -374,7 +375,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     marginBottom: 15,
   },
   chartSegment: {
@@ -396,10 +397,10 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
   },
   categoryCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -408,7 +409,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   categoryHeader: {
     flexDirection: 'row',
@@ -419,11 +420,11 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   categoryAmount: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   progressContainer: {
     flexDirection: 'row',
@@ -433,7 +434,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
     marginRight: 10,
   },
@@ -451,7 +452,7 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 5,
   },
   slider: {
@@ -459,7 +460,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   forecastCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   forecastColumn: {
     width: 20,
     height: 80,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 10,
     justifyContent: 'flex-end',
     marginBottom: 8,
@@ -490,16 +491,16 @@ const styles = StyleSheet.create({
   },
   forecastMonth: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   forecastNote: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
     fontStyle: 'italic',
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     margin: 15,
     padding: 15,
     borderRadius: 12,
@@ -507,7 +508,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   saveButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

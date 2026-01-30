@@ -10,6 +10,7 @@ import {
   Linking,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 interface EmergencyModeScreenProps {
   navigation?: any;
@@ -120,7 +121,7 @@ const EmergencyModeScreen: React.FC<EmergencyModeScreenProps> = ({ navigation })
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Alert Header */}
-        <View style={[styles.alertHeader, { backgroundColor: isEmergencyActive ? '#FF5722' : '#FF9800' }]}>
+        <View style={[styles.alertHeader, { backgroundColor: isEmergencyActive ? Colors.light.error : Colors.light.secondary }]}>
           <Text style={styles.alertIcon}>⚠️</Text>
           <View style={styles.alertContent}>
             <Text style={styles.alertTitle}>
@@ -140,7 +141,7 @@ const EmergencyModeScreen: React.FC<EmergencyModeScreenProps> = ({ navigation })
           <TouchableOpacity 
             style={[
               styles.emergencyToggle,
-              { backgroundColor: isEmergencyActive ? '#FF5722' : '#4CAF50' }
+              { backgroundColor: isEmergencyActive ? Colors.light.error : Colors.light.primary }
             ]}
             onPress={isEmergencyActive ? deactivateEmergencyMode : activateEmergencyMode}
           >
@@ -226,7 +227,7 @@ const EmergencyModeScreen: React.FC<EmergencyModeScreenProps> = ({ navigation })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   alertHeader: {
     flexDirection: 'row',
@@ -245,12 +246,12 @@ const styles = StyleSheet.create({
   alertTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   alertSubtitle: {
     fontSize: 12,
-    color: '#fff',
+    color: Colors.light.text,
     opacity: 0.9,
   },
   toggleSection: {
@@ -263,12 +264,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emergencyToggleText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
   calculatorSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   inputContainer: {
@@ -284,26 +285,26 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
     fontWeight: '500',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
   },
   calculateButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 15,
   },
   calculateButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contactsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 12,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     borderRadius: 8,
     marginBottom: 10,
   },
@@ -350,17 +351,17 @@ const styles = StyleSheet.create({
   contactName: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   contactNumber: {
     fontSize: 12,
-    color: '#2196F3',
+    color: Colors.light.primary,
     marginBottom: 2,
   },
   contactAvailable: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   callIcon: {
     fontSize: 20,

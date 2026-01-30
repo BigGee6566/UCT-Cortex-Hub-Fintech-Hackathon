@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
+import { createConsent, exchangeConsentToken, getConsentStatus, syncAccounts, syncBalances, syncTransactions } from '@/services/openBanking.service';
+import { setItem } from '@/services/storage';
+
 
 export default function BankConnectModal() {
   const params = useLocalSearchParams();
@@ -26,10 +30,62 @@ export default function BankConnectModal() {
   const bankImage = bankImages[bankName];
 
   const [phone, setPhone] = useState('');
+  const [isLinking, setIsLinking] = useState(false);
 
-  function linkAccount() {
-    // TODO: trigger Open Banking flow here
-    router.replace('/(tabs)');
+  async function waitForAuthorization(consentId: string) {
+    const maxAttempts = 10;
+    const delayMs = 3000;
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+      const status = await getConsentStatus(consentId);
+      const normalizedStatus = status.status?.toLowerCase?.() ?? '';
+      if (normalizedStatus.includes('author')) {
+        return status;
+      }
+      if (status.revoked_at) {
+        throw new Error('Consent was revoked by the bank.');
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+    throw new Error('Consent is still pending. Please finish approval in your bank app.');
+  }
+
+  async function linkAccount() {
+    if (isLinking) {
+      return;
+    }
+    if (!phone.trim()) {
+      Alert.alert('Missing phone number', 'Please enter your phone number to continue.');
+      return;
+    }
+    const normalizedPhone = phone.replace(/\\s+/g, '');
+    if (!/^0\\d{9}$/.test(normalizedPhone)) {
+      Alert.alert('Invalid phone number', 'Enter a valid South African cellphone number (e.g., 0812345678).');
+      return;
+    }
+
+    try {
+      setIsLinking(true);
+      const consent = await createConsent({ userExternalId: normalizedPhone });
+
+      await setItem('momali.user_id', consent.user_id);
+      await setItem('momali.consent_id', consent.consent_id);
+
+      if (consent.authorization_url) {
+        await WebBrowser.openBrowserAsync(consent.authorization_url);
+      }
+
+      await waitForAuthorization(consent.consent_id);
+      await exchangeConsentToken(consent.consent_id);
+      await syncAccounts(consent.user_id, consent.consent_id);
+      await syncBalances(consent.user_id, consent.consent_id);
+      await syncTransactions(consent.user_id, consent.consent_id);
+
+      router.replace('/(tabs)');
+    } catch (error: any) {
+      Alert.alert('Open Banking error', error?.message ?? 'Unable to start Open Banking consent.');
+    } finally {
+      setIsLinking(false);
+    }
   }
 
   return (
@@ -66,7 +122,7 @@ export default function BankConnectModal() {
 
           <View style={styles.notice}>
             <View style={styles.noticeIcon}>
-              <Text style={styles.noticeIconText}>??</Text>
+              <Text style={styles.noticeIconText}>ℹ️</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.noticeTitle}>Bank app notifications</Text>
@@ -74,8 +130,8 @@ export default function BankConnectModal() {
             </View>
           </View>
 
-          <Pressable style={styles.primary} accessibilityRole="button" onPress={linkAccount}>
-            <Text style={styles.primaryText}>Link account</Text>
+          <Pressable style={styles.primary} accessibilityRole="button" onPress={linkAccount} disabled={isLinking}>
+            {isLinking ? <ActivityIndicator color={Colors.light.card} /> : <Text style={styles.primaryText}>Link account</Text>}
           </Pressable>
         </View>
 
@@ -113,7 +169,7 @@ const styles = StyleSheet.create({
   headerRow: { flexDirection: 'row', gap: Spacing.sm, alignItems: 'center' },
   logoCircle: { width: 44, height: 44, borderRadius: 22, borderColor:  Colors.light.secondary, backgroundColor: '#ffff', alignItems: 'center', justifyContent: 'center' },
   logoImage: { width: 35, height: 35 },
-  logoText: { color: Colors.light.card, fontWeight: '800' },
+  logoText: { color: Colors.light.text, fontWeight: '800' },
   title: { fontSize: Typography.header, fontWeight: '800', color: Colors.light.text },
   sub: { color: Colors.light.mutedText },
 
@@ -155,8 +211,8 @@ const styles = StyleSheet.create({
   noticeTitle: { fontWeight: '700', color: Colors.light.text },
   noticeText: { color: Colors.light.mutedText, marginTop: 2 },
 
-  primary: { marginTop: Spacing.sm,backgroundColor: '#0E1A33', borderRadius: Radii.button, paddingVertical: Spacing.sm, alignItems: 'center', minHeight: 44 },
-  primaryText: { color: Colors.light.card, fontWeight: '800' },
+  primary: { marginTop: Spacing.sm,backgroundColor: Colors.light.primary, borderRadius: Radii.button, paddingVertical: Spacing.sm, alignItems: 'center', minHeight: 44 },
+  primaryText: { color: Colors.light.onAccent, fontWeight: '800' },
 
   infoBox: {
     backgroundColor: Colors.light.card,

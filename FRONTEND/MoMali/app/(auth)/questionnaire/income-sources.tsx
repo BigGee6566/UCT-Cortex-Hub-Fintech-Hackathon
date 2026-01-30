@@ -5,6 +5,7 @@ import type { Frequency, IncomeSourceKey, QuestionnaireAnswers } from '@/types/q
 import { getQuestionnaire, saveQuestionnaire } from '@/services/questionnaire.service';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 const FREQS: Frequency[] = ['Daily', 'Weekly', 'Monthly'];
 
 export default function IncomeSourcesScreen() {
@@ -157,7 +158,7 @@ function MoneyInput({ value, onChange }: { value: number; onChange: (n: number) 
         style={styles.moneyInput}
         keyboardType="numeric"
         value={String(value)}
-        onChangeText={(t) => {
+        onChangeText={(t: string) => {
           const n = Number(t.replace(/[^\d]/g, ''));
           onChange(Number.isFinite(n) ? n : 0);
         }}
@@ -276,9 +277,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.sm,
     borderRadius: Radii.pill,
   },
-  pillOn: { backgroundColor: '#0E1A33', borderColor: '#1B2A4A' },
+  pillOn: { backgroundColor: Colors.light.primary, borderColor: Colors.light.card },
   pillText: { fontWeight: '700', color: Colors.light.text },
-  pillTextOn: { color: '#FFFFFF' },
+  pillTextOn: { color: Colors.light.onAccent },
 
   dropdown: {
     backgroundColor: Colors.light.card,
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
   dropText: { fontWeight: '700', color: Colors.light.text },
 
   btn: {
-    backgroundColor: '#0E1A33',
+    backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
@@ -307,5 +308,5 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: '#FFFFFF', fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
 });

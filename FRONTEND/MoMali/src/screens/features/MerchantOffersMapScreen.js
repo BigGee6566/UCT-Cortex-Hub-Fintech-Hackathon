@@ -10,6 +10,7 @@ import {
   Alert,
   Linking
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const MerchantOffersMapScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -166,13 +167,13 @@ const MerchantOffersMapScreen = ({ navigation }) => {
           key={category}
           style={[
             styles.filterButton,
-            { backgroundColor: selectedCategory === category ? '#4CAF50' : '#f0f0f0' }
+            { backgroundColor: selectedCategory === category ? Colors.light.primary : Colors.light.border }
           ]}
           onPress={() => setSelectedCategory(category)}
         >
           <Text style={[
             styles.filterText,
-            { color: selectedCategory === category ? '#fff' : '#666' }
+            { color: selectedCategory === category ? Colors.light.card : Colors.light.mutedText }
           ]}>
             {category}
           </Text>
@@ -319,30 +320,30 @@ const MerchantOffersMapScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   locationButton: {
     fontSize: 20,
   },
   filtersContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     paddingVertical: 15,
     paddingHorizontal: 15,
   },
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     height: 300,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     borderRadius: 12,
     overflow: 'hidden',
@@ -377,12 +378,12 @@ const styles = StyleSheet.create({
   mapText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 5,
   },
   mapSubtext: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   markersContainer: {
     position: 'absolute',
@@ -393,7 +394,7 @@ const styles = StyleSheet.create({
   },
   mapMarker: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 8,
     borderRadius: 20,
     alignItems: 'center',
@@ -409,12 +410,12 @@ const styles = StyleSheet.create({
   },
   markerDistance: {
     fontSize: 8,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '600',
   },
   bottomSheet: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -424,11 +425,11 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   merchantCard: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
@@ -453,12 +454,12 @@ const styles = StyleSheet.create({
   merchantName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   offerTitle: {
     fontSize: 14,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: '500',
   },
   merchantRight: {
@@ -470,11 +471,11 @@ const styles = StyleSheet.create({
   distanceText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   categoryText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   modalOverlay: {
     flex: 1,
@@ -482,7 +483,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
@@ -497,11 +498,11 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   closeButton: {
     fontSize: 20,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   offerDetails: {
     marginBottom: 20,
@@ -521,12 +522,12 @@ const styles = StyleSheet.create({
   offerTitleLarge: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 5,
   },
   offerDescription: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 20,
   },
   offerMeta: {
@@ -539,16 +540,16 @@ const styles = StyleSheet.create({
   },
   metaLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 2,
   },
   metaValue: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   termsContainer: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
@@ -556,12 +557,12 @@ const styles = StyleSheet.create({
   termsTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 5,
   },
   termsText: {
     fontSize: 11,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 16,
   },
   merchantDetails: {
@@ -569,11 +570,11 @@ const styles = StyleSheet.create({
   },
   addressText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   phoneText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   modalActions: {
     flexDirection: 'row',
@@ -581,25 +582,25 @@ const styles = StyleSheet.create({
   },
   directionsButton: {
     flex: 1,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     padding: 15,
     borderRadius: 12,
     alignItems: 'center',
   },
   directionsButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   claimButton: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 15,
     borderRadius: 12,
     alignItems: 'center',
   },
   claimButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },

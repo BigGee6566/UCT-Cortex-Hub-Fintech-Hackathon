@@ -10,6 +10,7 @@ import {
   Linking,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const HelpScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -239,25 +240,25 @@ const HelpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   backButton: {
     fontSize: 24,
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 24,
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     paddingHorizontal: 15,
     marginBottom: 20,
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     borderRadius: 12,
     padding: 15,
     alignItems: 'center',
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   actionText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -309,16 +310,16 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   faqContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
   },
   faqItem: {
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   faqQuestion: {
     flexDirection: 'row',
@@ -329,32 +330,32 @@ const styles = StyleSheet.create({
   questionText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     flex: 1,
   },
   expandIcon: {
     fontSize: 20,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: 'bold',
   },
   faqAnswer: {
     padding: 15,
     paddingTop: 0,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
   },
   answerText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 20,
   },
   noResults: {
     padding: 20,
     textAlign: 'center',
-    color: '#666',
+    color: Colors.light.mutedText,
     fontStyle: 'italic',
   },
   tutorialsContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 10,
   },
@@ -363,12 +364,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   tutorialThumbnail: {
     width: 60,
     height: 45,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -383,12 +384,12 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   playIcon: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
   },
   tutorialInfo: {
@@ -397,15 +398,15 @@ const styles = StyleSheet.create({
   tutorialTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   tutorialDuration: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   helpOptions: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
   },
   helpOption: {
@@ -413,7 +414,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   helpIcon: {
     fontSize: 24,
@@ -425,16 +426,16 @@ const styles = StyleSheet.create({
   helpTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
   },
   helpSubtitle: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 2,
   },
   arrow: {
     fontSize: 18,
-    color: '#ccc',
+    color: Colors.light.border,
   },
 });
 

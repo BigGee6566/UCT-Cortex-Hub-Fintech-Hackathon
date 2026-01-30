@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const FinancialHealthScreen = ({ navigation }) => {
   const [selectedPeriod, setSelectedPeriod] = useState('6M');
@@ -20,7 +21,7 @@ const FinancialHealthScreen = ({ navigation }) => {
       category: 'Budgeting', 
       score: 85, 
       maxScore: 100, 
-      color: '#4CAF50',
+      color: Colors.light.primary,
       icon: '📊',
       tips: [
         'Great job staying within budget limits',
@@ -32,7 +33,7 @@ const FinancialHealthScreen = ({ navigation }) => {
       category: 'Savings', 
       score: 65, 
       maxScore: 100, 
-      color: '#FF9800',
+      color: Colors.light.secondary,
       icon: '💰',
       tips: [
         'Aim to save at least 20% of your income',
@@ -44,7 +45,7 @@ const FinancialHealthScreen = ({ navigation }) => {
       category: 'Debt Management', 
       score: 78, 
       maxScore: 100, 
-      color: '#2196F3',
+      color: Colors.light.primary,
       icon: '💳',
       tips: [
         'Keep credit utilization below 30%',
@@ -56,7 +57,7 @@ const FinancialHealthScreen = ({ navigation }) => {
       category: 'Investment', 
       score: 45, 
       maxScore: 100, 
-      color: '#FF5722',
+      color: Colors.light.error,
       icon: '📈',
       tips: [
         'Start with low-cost index funds',
@@ -68,7 +69,7 @@ const FinancialHealthScreen = ({ navigation }) => {
       category: 'Financial Planning', 
       score: 70, 
       maxScore: 100, 
-      color: '#9C27B0',
+      color: Colors.light.secondary,
       icon: '🎯',
       tips: [
         'Set clear short and long-term financial goals',
@@ -96,9 +97,9 @@ const FinancialHealthScreen = ({ navigation }) => {
   };
 
   const getScoreColor = (score) => {
-    if (score >= 80) return '#4CAF50';
-    if (score >= 60) return '#FF9800';
-    return '#FF5722';
+    if (score >= 80) return Colors.light.primary;
+    if (score >= 60) return Colors.light.secondary;
+    return Colors.light.error;
   };
 
   const getScoreLabel = (score) => {
@@ -121,7 +122,7 @@ const FinancialHealthScreen = ({ navigation }) => {
             <Text style={styles.scoreLabel}>Financial Health</Text>
             <Text style={[
               styles.scoreChange,
-              { color: scoreChange >= 0 ? '#4CAF50' : '#FF5722' }
+              { color: scoreChange >= 0 ? Colors.light.primary : Colors.light.error }
             ]}>
               {scoreChange >= 0 ? '+' : ''}{scoreChange} this month
             </Text>
@@ -184,13 +185,13 @@ const FinancialHealthScreen = ({ navigation }) => {
               key={period}
               style={[
                 styles.periodButton,
-                { backgroundColor: selectedPeriod === period ? '#2196F3' : '#f0f0f0' }
+                { backgroundColor: selectedPeriod === period ? Colors.light.primary : Colors.light.border }
               ]}
               onPress={() => setSelectedPeriod(period)}
             >
               <Text style={[
                 styles.periodText,
-                { color: selectedPeriod === period ? '#fff' : '#666' }
+                { color: selectedPeriod === period ? Colors.light.card : Colors.light.mutedText }
               ]}>
                 {period}
               </Text>
@@ -246,7 +247,7 @@ const FinancialHealthScreen = ({ navigation }) => {
                 styles.comparisonBarFill,
                 { 
                   width: `${(peerComparison.yourScore / 100) * 100}%`,
-                  backgroundColor: '#4CAF50'
+                  backgroundColor: Colors.light.primary
                 }
               ]} 
             />
@@ -262,7 +263,7 @@ const FinancialHealthScreen = ({ navigation }) => {
                 styles.comparisonBarFill,
                 { 
                   width: `${(peerComparison.averageScore / 100) * 100}%`,
-                  backgroundColor: '#FF9800'
+                  backgroundColor: Colors.light.secondary
                 }
               ]} 
             />
@@ -278,7 +279,7 @@ const FinancialHealthScreen = ({ navigation }) => {
                 styles.comparisonBarFill,
                 { 
                   width: `${(peerComparison.topPercentile / 100) * 100}%`,
-                  backgroundColor: '#2196F3'
+                  backgroundColor: Colors.light.primary
                 }
               ]} 
             />
@@ -334,30 +335,30 @@ const FinancialHealthScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 50,
   },
   circularProgressContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 30,
     borderRadius: 12,
@@ -367,7 +368,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
@@ -378,11 +379,11 @@ const styles = StyleSheet.create({
   scoreText: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   scoreLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 5,
   },
   scoreChange: {
@@ -395,7 +396,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   categorySection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -403,14 +404,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 20,
   },
   categoryItem: {
     marginBottom: 25,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   categoryHeader: {
     flexDirection: 'row',
@@ -429,7 +430,7 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   categoryScore: {
     fontSize: 16,
@@ -440,7 +441,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
   },
   progressFill: {
@@ -448,24 +449,24 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   tipsContainer: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 12,
     borderRadius: 8,
   },
   tipsTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
   },
   tipText: {
     fontSize: 11,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 16,
     marginBottom: 3,
   },
   graphSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
   periodSelector: {
     flexDirection: 'row',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 6,
     padding: 2,
   },
@@ -502,7 +503,7 @@ const styles = StyleSheet.create({
   },
   axisLabel: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   graphArea: {
     flex: 1,
@@ -517,7 +518,7 @@ const styles = StyleSheet.create({
   graphBar: {
     width: 20,
     height: 100,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 10,
     justifyContent: 'flex-end',
     marginBottom: 5,
@@ -529,17 +530,17 @@ const styles = StyleSheet.create({
   },
   monthLabel: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   comparisonSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
   },
   comparisonSubtitle: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 20,
     lineHeight: 18,
   },
@@ -553,13 +554,13 @@ const styles = StyleSheet.create({
   },
   comparisonLabel: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
     width: 80,
   },
   comparisonBar: {
     flex: 1,
     height: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
     marginHorizontal: 10,
   },
@@ -570,7 +571,7 @@ const styles = StyleSheet.create({
   comparisonScore: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     width: 30,
   },
   comparisonInsight: {
@@ -589,7 +590,7 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
   },
   actionButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     margin: 15,
     padding: 15,
     borderRadius: 12,
@@ -597,7 +598,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   actionButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

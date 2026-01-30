@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 import Slider from '@react-native-community/slider';
+import { Colors } from '@/constants/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -99,7 +100,7 @@ const CategoryDetailScreen = ({ route, navigation }) => {
         </View>
         <Text style={[
           styles.budgetPercentage,
-          { color: budgetUsage > 100 ? '#FF5722' : '#4CAF50' }
+          { color: budgetUsage > 100 ? Colors.light.error : Colors.light.primary }
         ]}>
           {budgetUsage.toFixed(0)}% used
         </Text>
@@ -151,20 +152,20 @@ const CategoryDetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   backButton: {
     fontSize: 24,
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   headerContent: {
     flexDirection: 'row',
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 24,
@@ -189,11 +190,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   chartContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     marginBottom: 15,
@@ -214,22 +215,22 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   bar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     width: 20,
     borderRadius: 2,
   },
   barLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 2,
   },
   barAmount: {
     fontSize: 10,
-    color: '#333',
+    color: Colors.light.text,
     fontWeight: '500',
   },
   budgetContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     marginBottom: 15,
@@ -239,13 +240,13 @@ const styles = StyleSheet.create({
   },
   budgetBar: {
     height: 8,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
     marginBottom: 10,
   },
   budgetFill: {
     height: '100%',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     borderRadius: 4,
   },
   budgetLabels: {
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
   },
   budgetLabel: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   budgetPercentage: {
     fontSize: 16,
@@ -268,7 +269,7 @@ const styles = StyleSheet.create({
   sliderLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   sliderThumb: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     width: 20,
     height: 20,
   },
@@ -288,10 +289,10 @@ const styles = StyleSheet.create({
   },
   rangeText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   merchantsContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
   },
@@ -300,19 +301,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   merchantRank: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
   },
   rankText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -322,16 +323,16 @@ const styles = StyleSheet.create({
   merchantName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   merchantTransactions: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   merchantAmount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
 });
 

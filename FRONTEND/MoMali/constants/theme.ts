@@ -5,16 +5,19 @@
 
 import { Platform } from 'react-native';
 
-const primary = '#1E3A8A';
-const secondary = '#10B981';
-const accent = '#F59E0B';
-const error = '#EF4444';
-const success = '#22C55E';
-const background = '#F9FAFB';
-const card = '#FFFFFF';
-const text = '#0F172A';
-const mutedText = '#475569';
-const border = '#E2E8F0';
+const primary = '#2EC4B6';
+const secondary = '#4FD1C5';
+const accent = '#2EC4B6';
+const mint = '#E6FFFA';
+const error = '#FF6B6B';
+const success = '#2EC4B6';
+const background = '#0E1A33';
+const card = '#1B2A4A';
+const surfaceAlt = '#2A3A5E';
+const text = '#F5F7FA';
+const mutedText = '#B8C2E0';
+const border = '#3B4A6B';
+const onAccent = '#0E1A33';
 
 export const Colors = {
   light: {
@@ -23,11 +26,14 @@ export const Colors = {
     accent,
     error,
     success,
+    mint,
     background,
     card,
+    surfaceAlt,
     text,
     mutedText,
     border,
+    onAccent,
     icon: mutedText,
     tint: primary,
     tabIconDefault: mutedText,
@@ -35,21 +41,24 @@ export const Colors = {
     shadow: 'rgba(15, 23, 42, 0.12)',
   },
   dark: {
-    primary: '#93C5FD',
-    secondary: '#34D399',
-    accent: '#FBBF24',
-    error: '#F87171',
-    success: '#4ADE80',
-    background: '#0F172A',
-    card: '#111827',
-    text: '#E2E8F0',
-    mutedText: '#94A3B8',
-    border: '#1F2937',
-    icon: '#94A3B8',
-    tint: '#93C5FD',
-    tabIconDefault: '#94A3B8',
-    tabIconSelected: '#93C5FD',
-    shadow: 'rgba(15, 23, 42, 0.6)',
+    primary: '#2EC4B6',
+    secondary: '#4FD1C5',
+    accent: '#2EC4B6',
+    error: '#FF6B6B',
+    success: '#2EC4B6',
+    mint: '#E6FFFA',
+    background: '#0E1A33',
+    card: '#1B2A4A',
+    surfaceAlt: '#2A3A5E',
+    text: '#F5F7FA',
+    mutedText: '#B8C2E0',
+    border: '#3B4A6B',
+    onAccent: '#0E1A33',
+    icon: '#B8C2E0',
+    tint: '#2EC4B6',
+    tabIconDefault: '#B8C2E0',
+    tabIconSelected: '#2EC4B6',
+    shadow: 'rgba(14, 26, 51, 0.6)',
   },
 };
 

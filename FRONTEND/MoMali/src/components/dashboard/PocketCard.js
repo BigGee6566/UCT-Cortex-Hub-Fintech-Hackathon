@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const PocketCard = ({ pocket }) => {
   const progressPercentage = (pocket.amount / pocket.budget) * 100;
@@ -24,14 +25,14 @@ const PocketCard = ({ pocket }) => {
                 styles.progressFill, 
                 { 
                   width: `${Math.min(100, progressPercentage)}%`,
-                  backgroundColor: isOverBudget ? '#FF5722' : pocket.color
+                  backgroundColor: isOverBudget ? Colors.light.error : pocket.color
                 }
               ]} 
             />
           </View>
           <Text style={[
             styles.progressText,
-            { color: isOverBudget ? '#FF5722' : '#666' }
+            { color: isOverBudget ? Colors.light.error : Colors.light.mutedText }
           ]}>
             {progressPercentage.toFixed(0)}%
           </Text>
@@ -43,7 +44,7 @@ const PocketCard = ({ pocket }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     width: 160,
     marginRight: 15,
     borderRadius: 12,
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   amountContainer: {
@@ -75,11 +76,11 @@ const styles = StyleSheet.create({
   amount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   budget: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginLeft: 4,
   },
   progressContainer: {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 6,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: Colors.light.border,
     borderRadius: 3,
     marginRight: 8,
   },

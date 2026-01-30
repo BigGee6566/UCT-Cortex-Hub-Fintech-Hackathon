@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const MoneyOverviewCard = ({ totalBalance, daysRemaining, isRunningLow }) => {
   const progressPercentage = Math.max(0, Math.min(100, (daysRemaining / 30) * 100));
@@ -29,7 +30,7 @@ const MoneyOverviewCard = ({ totalBalance, daysRemaining, isRunningLow }) => {
               styles.progressFill, 
               { 
                 width: `${progressPercentage}%`,
-                backgroundColor: isRunningLow ? '#FF5722' : '#4CAF50'
+                backgroundColor: isRunningLow ? Colors.light.error : Colors.light.primary
               }
             ]} 
           />
@@ -42,7 +43,7 @@ const MoneyOverviewCard = ({ totalBalance, daysRemaining, isRunningLow }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 20,
     padding: 20,
     borderRadius: 12,
@@ -60,26 +61,26 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   alertBadge: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#FF5722',
+    backgroundColor: Colors.light.error,
     justifyContent: 'center',
     alignItems: 'center',
   },
   alertText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: 'bold',
   },
   balance: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   daysContainer: {
@@ -87,12 +88,12 @@ const styles = StyleSheet.create({
   },
   daysText: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
     fontWeight: '600',
   },
   daysSubtext: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 2,
   },
   progressContainer: {
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 8,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
     marginRight: 10,
   },
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
 });

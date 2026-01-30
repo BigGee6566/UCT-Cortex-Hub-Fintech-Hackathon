@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const InsightsScreen = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('This Month');
@@ -40,11 +41,11 @@ const InsightsScreen = () => {
   ];
 
   const categoryTrends = [
-    { category: 'Food & Dining', thisMonth: 2450, lastMonth: 2200, trend: 'up', color: '#4CAF50' },
-    { category: 'Transportation', thisMonth: 1200, lastMonth: 1350, trend: 'down', color: '#2196F3' },
-    { category: 'Entertainment', thisMonth: 650, lastMonth: 480, trend: 'up', color: '#9C27B0' },
-    { category: 'Shopping', thisMonth: 980, lastMonth: 1200, trend: 'down', color: '#FF5722' },
-    { category: 'Bills', thisMonth: 2100, lastMonth: 2050, trend: 'up', color: '#FF9800' }
+    { category: 'Food & Dining', thisMonth: 2450, lastMonth: 2200, trend: 'up', color: Colors.light.primary },
+    { category: 'Transportation', thisMonth: 1200, lastMonth: 1350, trend: 'down', color: Colors.light.primary },
+    { category: 'Entertainment', thisMonth: 650, lastMonth: 480, trend: 'up', color: Colors.light.secondary },
+    { category: 'Shopping', thisMonth: 980, lastMonth: 1200, trend: 'down', color: Colors.light.error },
+    { category: 'Bills', thisMonth: 2100, lastMonth: 2050, trend: 'up', color: Colors.light.secondary }
   ];
 
   const hiddenCosts = [
@@ -101,7 +102,7 @@ const InsightsScreen = () => {
           <Text style={styles.summaryLabel}>Total Spent</Text>
         </View>
         <View style={styles.summaryItem}>
-          <Text style={[styles.summaryValue, { color: '#4CAF50' }]}>
+          <Text style={[styles.summaryValue, { color: Colors.light.primary }]}>
             {monthlyData.savingsRate}%
           </Text>
           <Text style={styles.summaryLabel}>Savings Rate</Text>
@@ -133,7 +134,7 @@ const InsightsScreen = () => {
                     styles.dayBarFill, 
                     { 
                       height: `${height}%`,
-                      backgroundColor: index >= 5 ? '#FF9800' : '#2196F3'
+                      backgroundColor: index >= 5 ? Colors.light.secondary : Colors.light.primary
                     }
                   ]} 
                 />
@@ -187,7 +188,7 @@ const InsightsScreen = () => {
               <View style={styles.trendChange}>
                 <Text style={[
                   styles.trendChangeText,
-                  { color: category.trend === 'up' ? '#FF5722' : '#4CAF50' }
+                  { color: category.trend === 'up' ? Colors.light.error : Colors.light.primary }
                 ]}>
                   {category.trend === 'up' ? '↗' : '↘'} {Math.abs(changePercent)}%
                 </Text>
@@ -244,8 +245,8 @@ const InsightsScreen = () => {
       {aiInsights.map(insight => (
         <View key={insight.id} style={[
           styles.aiInsightCard,
-          { borderLeftColor: insight.priority === 'high' ? '#FF5722' : 
-                            insight.priority === 'medium' ? '#FF9800' : '#4CAF50' }
+          { borderLeftColor: insight.priority === 'high' ? Colors.light.error : 
+                            insight.priority === 'medium' ? Colors.light.secondary : Colors.light.primary }
         ]}>
           <View style={styles.aiInsightHeader}>
             <Text style={styles.aiInsightIcon}>{insight.icon}</Text>
@@ -274,13 +275,13 @@ const InsightsScreen = () => {
                 key={period}
                 style={[
                   styles.periodButton,
-                  { backgroundColor: selectedPeriod === period ? '#2196F3' : '#f0f0f0' }
+                  { backgroundColor: selectedPeriod === period ? Colors.light.primary : Colors.light.border }
                 ]}
                 onPress={() => setSelectedPeriod(period)}
               >
                 <Text style={[
                   styles.periodText,
-                  { color: selectedPeriod === period ? '#fff' : '#666' }
+                  { color: selectedPeriod === period ? Colors.light.card : Colors.light.mutedText }
                 ]}>
                   {period}
                 </Text>
@@ -317,23 +318,23 @@ const InsightsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   periodSelector: {
     flexDirection: 'row',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 8,
     padding: 2,
   },
@@ -349,7 +350,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   summaryCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -357,7 +358,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   summaryGrid: {
@@ -373,15 +374,15 @@ const styles = StyleSheet.create({
   summaryValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   summaryLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   chartCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -399,7 +400,7 @@ const styles = StyleSheet.create({
   dayBar: {
     width: 20,
     height: 80,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 10,
     justifyContent: 'flex-end',
     marginBottom: 8,
@@ -411,12 +412,12 @@ const styles = StyleSheet.create({
   },
   dayLabel: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 2,
   },
   dayAmount: {
     fontSize: 8,
-    color: '#333',
+    color: Colors.light.text,
     fontWeight: '600',
   },
   heatmapContainer: {
@@ -440,14 +441,14 @@ const styles = StyleSheet.create({
   heatmapHour: {
     fontSize: 10,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   heatmapLabel: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   trendsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -458,7 +459,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   trendLeft: {
     flexDirection: 'row',
@@ -473,7 +474,7 @@ const styles = StyleSheet.create({
   },
   trendCategory: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
   },
   trendRight: {
     alignItems: 'flex-end',
@@ -481,7 +482,7 @@ const styles = StyleSheet.create({
   trendAmount: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   trendChange: {
@@ -493,16 +494,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   hiddenCostsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: Colors.light.secondary,
   },
   hiddenCostsSubtitle: {
     fontSize: 14,
-    color: '#FF9800',
+    color: Colors.light.secondary,
     marginBottom: 15,
     fontWeight: '500',
   },
@@ -512,7 +513,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   hiddenCostLeft: {
     flex: 1,
@@ -520,20 +521,20 @@ const styles = StyleSheet.create({
   hiddenCostType: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   hiddenCostDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   hiddenCostAmount: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#FF5722',
+    color: Colors.light.error,
   },
   achievementsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -545,7 +546,7 @@ const styles = StyleSheet.create({
   },
   achievementBadge: {
     width: '48%',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 15,
     borderRadius: 12,
     alignItems: 'center',
@@ -558,13 +559,13 @@ const styles = StyleSheet.create({
   achievementTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     textAlign: 'center',
     marginBottom: 4,
   },
   achievementDescription: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
   },
   aiInsightsContainer: {
@@ -572,7 +573,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   aiInsightCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
@@ -590,24 +591,24 @@ const styles = StyleSheet.create({
   aiInsightTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   aiInsightMessage: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 12,
     lineHeight: 20,
   },
   aiInsightAction: {
     alignSelf: 'flex-start',
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 15,
   },
   aiInsightActionText: {
     fontSize: 12,
-    color: '#fff',
+    color: Colors.light.text,
     fontWeight: '600',
   },
 });

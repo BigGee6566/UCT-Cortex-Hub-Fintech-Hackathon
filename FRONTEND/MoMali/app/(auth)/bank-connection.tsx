@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 export default function BankConnectionScreen() {
   async function connectMock() {
     // MVP: simulate successful connection
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   title: { fontSize: Typography.title, fontWeight: '800', color: Colors.light.text },
   sub: { color: Colors.light.mutedText, lineHeight: 20, fontWeight: '600', fontSize: Typography.body },
   btn: {
-    backgroundColor: '#0E1A33',
+    backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: Colors.light.card, fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
   ghost: { backgroundColor: 'transparent', borderWidth: 1, borderColor: Colors.light.primary },
   dark: { color: Colors.light.primary },
 });

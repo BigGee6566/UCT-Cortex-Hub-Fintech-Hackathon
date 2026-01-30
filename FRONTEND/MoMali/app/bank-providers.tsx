@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { router } from 'expo-router';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 const popularBanks = [
   { name: 'FNB', tag: 'Popular', color: '#00529B', image: require('@/assets/images/Banks/Fnb.png') },
   {
@@ -99,7 +100,7 @@ export default function BankProvidersModal() {
               <Image source={bank.image} style={styles.listImage} resizeMode="contain" />
             </View>
               <Text style={styles.listName}>{bank.name}</Text>
-              <Text style={styles.chev}>▶</Text>
+              <Text style={styles.chev}>›</Text>
             </Pressable>
           ))}
         </View>

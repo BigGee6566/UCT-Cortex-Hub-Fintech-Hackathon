@@ -5,6 +5,7 @@ import type { BillItem, Frequency, QuestionnaireAnswers } from '@/types/question
 import { getQuestionnaire, saveQuestionnaire } from '@/services/questionnaire.service';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 const FREQS: Frequency[] = ['Daily', 'Weekly', 'Monthly'];
 
 export default function ObligationsScreen() {
@@ -88,7 +89,7 @@ export default function ObligationsScreen() {
               style={styles.moneyInput}
               keyboardType="numeric"
               value={amount}
-              onChangeText={(t) => setAmount(t.replace(/[^\d]/g, '') || '0')}
+              onChangeText={(t: string) => setAmount(t.replace(/[^\d]/g, '') || '0')}
             />
           </View>
 
@@ -242,9 +243,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.sm,
     borderRadius: Radii.pill,
   },
-  pillOn: { backgroundColor: '#0E1A33', borderColor: '#1B2A4A' },
+  pillOn: { backgroundColor: Colors.light.primary, borderColor: Colors.light.card },
   pillText: { fontWeight: '700', color: Colors.light.text },
-  pillTextOn: { color: '#FFFFFF' },
+  pillTextOn: { color: Colors.light.onAccent },
 
   sectionTitle: { fontWeight: '800', marginTop: Spacing.xs, color: Colors.light.text },
   empty: { color: Colors.light.mutedText, textAlign: 'center', marginTop: Spacing.xs },
@@ -282,25 +283,24 @@ const styles = StyleSheet.create({
 
   btn: {
     flex: 1,
-    backgroundColor: '#0E1A33',
+    backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: '#FFFFFF', fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
   btnGhost: {
     flex: 1,
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#1B2A4A',
+    borderColor: Colors.light.card,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnGhostText: { color: '#0E1A33', fontWeight: '800' },
+  btnGhostText: { color: Colors.light.primary, fontWeight: '800' },
 });
-

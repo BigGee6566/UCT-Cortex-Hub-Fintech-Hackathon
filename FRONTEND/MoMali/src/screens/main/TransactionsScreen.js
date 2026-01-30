@@ -11,6 +11,7 @@ import {
   ScrollView
 } from 'react-native';
 import FilterModal from '../../components/FilterModal';
+import { Colors } from '@/constants/theme';
 
 const TransactionsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -116,7 +117,7 @@ const TransactionsScreen = () => {
       </View>
       <Text style={[
         styles.transactionAmount,
-        { color: item.amount >= 0 ? '#4CAF50' : '#333' }
+        { color: item.amount >= 0 ? Colors.light.primary : Colors.light.text }
       ]}>
         {item.amount >= 0 ? '+' : ''}R{Math.abs(item.amount).toFixed(2)}
       </Text>
@@ -137,7 +138,7 @@ const TransactionsScreen = () => {
           })}</Text>
           <Text style={[
             styles.dayTotal,
-            { color: dayTotal >= 0 ? '#4CAF50' : '#FF5722' }
+            { color: dayTotal >= 0 ? Colors.light.primary : Colors.light.error }
           ]}>
             {dayTotal >= 0 ? '+' : ''}R{Math.abs(dayTotal).toFixed(2)}
           </Text>
@@ -200,13 +201,13 @@ const TransactionsScreen = () => {
         <View style={styles.summaryRow}>
           <View style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Income</Text>
-            <Text style={[styles.summaryAmount, { color: '#4CAF50' }]}>
+            <Text style={[styles.summaryAmount, { color: Colors.light.primary }]}>
               +R{monthlyIncome.toFixed(2)}
             </Text>
           </View>
           <View style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Expenses</Text>
-            <Text style={[styles.summaryAmount, { color: '#FF5722' }]}>
+            <Text style={[styles.summaryAmount, { color: Colors.light.error }]}>
               -R{monthlyExpenses.toFixed(2)}
             </Text>
           </View>
@@ -214,7 +215,7 @@ const TransactionsScreen = () => {
             <Text style={styles.summaryLabel}>Net</Text>
             <Text style={[
               styles.summaryAmount,
-              { color: monthlyTotal >= 0 ? '#4CAF50' : '#FF5722' }
+              { color: monthlyTotal >= 0 ? Colors.light.primary : Colors.light.error }
             ]}>
               {monthlyTotal >= 0 ? '+' : ''}R{Math.abs(monthlyTotal).toFixed(2)}
             </Text>
@@ -250,29 +251,29 @@ const TransactionsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   searchContainer: {
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   searchInput: {
     flex: 1,
     height: 40,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     marginRight: 10,
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -293,7 +294,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -5,
     right: -5,
-    backgroundColor: '#FF5722',
+    backgroundColor: Colors.light.error,
     borderRadius: 10,
     width: 20,
     height: 20,
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   filterBadgeText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: 'bold',
   },
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   activeFiltersText: {
     fontSize: 14,
@@ -331,11 +332,11 @@ const styles = StyleSheet.create({
   },
   clearFiltersText: {
     fontSize: 12,
-    color: '#fff',
+    color: Colors.light.text,
     fontWeight: '600',
   },
   summaryCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -343,7 +344,7 @@ const styles = StyleSheet.create({
   summaryTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   summaryRow: {
@@ -355,7 +356,7 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 4,
   },
   summaryAmount: {
@@ -367,7 +368,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dateGroup: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     marginHorizontal: 15,
     marginBottom: 10,
     borderRadius: 12,
@@ -378,14 +379,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   dateText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   dayTotal: {
     fontSize: 14,
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   transactionLeft: {
     flexDirection: 'row',
@@ -408,7 +409,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -422,12 +423,12 @@ const styles = StyleSheet.create({
   transactionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   transactionTime: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   transactionAmount: {
     fontSize: 16,

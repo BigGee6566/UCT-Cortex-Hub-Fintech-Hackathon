@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { saveConsent } from '@/services/consent.service';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 export default function ConsentScreen() {
   const [balances, setBalances] = useState(true);
   const [transactions, setTransactions] = useState(true);
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: Spacing.sm },
   rowText: { fontWeight: '700', color: Colors.light.text },
   btn: {
-     backgroundColor: '#0E1A33',
+     backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
@@ -106,6 +107,5 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: Colors.light.card, fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
 });
-

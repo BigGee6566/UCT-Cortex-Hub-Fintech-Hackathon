@@ -1,15 +1,31 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Pressable, ScrollView, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 export default function LoginScreen() {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [error, setError] = useState('');
 
   function onLogin() {
+    const normalizedEmail = id.trim().toLowerCase();
+    if (!normalizedEmail || !pw.trim()) {
+      setError('Please enter your email and password.');
+      return;
+    }
+    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(normalizedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    setError('');
     router.replace('/(auth)/questionnaire/income-sources');
+  }
+
+  function handleSocial(provider: string) {
+    Alert.alert(provider, 'Social login is coming soon.');
   }
 
   return (
@@ -27,6 +43,8 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Email"
           autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
           value={id}
           onChangeText={setId}
         />
@@ -36,9 +54,12 @@ export default function LoginScreen() {
           style={[styles.input, styles.inputFocus]}
           placeholder="Password"
           secureTextEntry
+          autoCapitalize="none"
           value={pw}
           onChangeText={setPw}
         />
+
+        {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <Text style={styles.terms}>
           By clicking on continue you agree to our Terms and conditions and okay with our Privacy
@@ -54,11 +75,11 @@ export default function LoginScreen() {
           <View style={styles.divider} />
         </View>
 
-        <Pressable style={styles.socialBtn} accessibilityRole="button">
+        <Pressable style={styles.socialBtn} accessibilityRole="button" onPress={() => handleSocial('Google')}>
           <Image source={require('@/assets/images/google.png')} style={styles.socialIcon} contentFit="contain" />
           <Text style={styles.socialText}>Continue with Google</Text>
         </Pressable>
-        <Pressable style={styles.socialBtn} accessibilityRole="button">
+        <Pressable style={styles.socialBtn} accessibilityRole="button" onPress={() => handleSocial('Apple ID')}>
           <Image source={require('@/assets/images/apple.png')} style={styles.socialIcon} contentFit="contain" />
           <Text style={styles.socialText}>Continue with Apple ID</Text>
         </Pressable>
@@ -69,7 +90,7 @@ export default function LoginScreen() {
             <Text style={styles.link}>Register</Text>
           </Pressable>
         </View>
-        <Pressable onPress={() => router.replace('/(auth)/signup')} accessibilityRole="button">
+        <Pressable onPress={() => Alert.alert('Forgot password', 'Password recovery is coming soon.')} accessibilityRole="button">
           <Text style={styles.link}>Forgot password?</Text>
         </Pressable>
       </View>
@@ -90,7 +111,7 @@ const styles = StyleSheet.create({
     maxWidth: 420,
     alignItems: 'center',
     gap: Spacing.sm,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.light.card,
     borderRadius: Radii.card,
     padding: Spacing.lg,
     borderWidth: 1,
@@ -115,18 +136,19 @@ const styles = StyleSheet.create({
   inputFocus: { borderColor: Colors.light.secondary },
 
   terms: { color: Colors.light.mutedText, textAlign: 'center', fontSize: Typography.small },
+  error: { color: Colors.light.error, fontWeight: '600' },
 
   primaryBtn: {
     width: '100%',
-    backgroundColor: '#0E1A33',
-    borderColor: '#1B2A4A',
+    backgroundColor: Colors.light.primary,
+    borderColor: Colors.light.card,
     borderWidth: 1,
     borderRadius: Radii.button,
     paddingVertical: Spacing.sm,
     alignItems: 'center',
     minHeight: 44,
   },
-  primaryText: { color: Colors.light.card, fontWeight: '800' },
+  primaryText: { color: Colors.light.onAccent, fontWeight: '800' },
 
   dividerRow: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
   divider: { flex: 1, height: 1, backgroundColor: Colors.light.border },

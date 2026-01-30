@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { Colors } from '@/constants/theme';
 
 export default function Onboarding() {
   return (
@@ -19,5 +20,5 @@ const styles = StyleSheet.create({
   title: { fontSize: 34, fontWeight: '800' },
   subtitle: { marginTop: 10, fontSize: 16, opacity: 0.7, textAlign: 'center' },
   button: { marginTop: 24, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 12, backgroundColor: '#111' },
-  buttonText: { color: '#fff', fontWeight: '700' },
+  buttonText: { color: Colors.light.onAccent, fontWeight: '700' },
 });

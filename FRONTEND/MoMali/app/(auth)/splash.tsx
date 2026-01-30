@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 export default function SplashScreen() {
   return (
     <View style={styles.container}>

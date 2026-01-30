@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const BudgetPlannerScreen = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('6M');
@@ -18,11 +19,11 @@ const BudgetPlannerScreen = () => {
   const remainingBudget = totalBudget - totalSpent;
 
   const categories = [
-    { name: 'Food & Dining', budget: 3000, spent: 2450, color: '#4CAF50' },
-    { name: 'Transportation', budget: 1500, spent: 1200, color: '#2196F3' },
-    { name: 'Bills & Utilities', budget: 2500, spent: 2100, color: '#FF9800' },
-    { name: 'Entertainment', budget: 800, spent: 650, color: '#9C27B0' },
-    { name: 'Shopping', budget: 1200, spent: 980, color: '#FF5722' }
+    { name: 'Food & Dining', budget: 3000, spent: 2450, color: Colors.light.primary },
+    { name: 'Transportation', budget: 1500, spent: 1200, color: Colors.light.primary },
+    { name: 'Bills & Utilities', budget: 2500, spent: 2100, color: Colors.light.secondary },
+    { name: 'Entertainment', budget: 800, spent: 650, color: Colors.light.secondary },
+    { name: 'Shopping', budget: 1200, spent: 980, color: Colors.light.error }
   ];
 
   return (
@@ -42,11 +43,11 @@ const BudgetPlannerScreen = () => {
               <Text style={styles.statLabel}>Total Budget</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#FF5722' }]}>R{totalSpent.toLocaleString()}</Text>
+              <Text style={[styles.statValue, { color: Colors.light.error }]}>R{totalSpent.toLocaleString()}</Text>
               <Text style={styles.statLabel}>Spent</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#4CAF50' }]}>R{remainingBudget.toLocaleString()}</Text>
+              <Text style={[styles.statValue, { color: Colors.light.primary }]}>R{remainingBudget.toLocaleString()}</Text>
               <Text style={styles.statLabel}>Remaining</Text>
             </View>
           </View>
@@ -97,21 +98,21 @@ const BudgetPlannerScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   overviewTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   overviewStats: {
@@ -132,15 +133,15 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   categorySection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 20,
   },
   categoryItem: {
@@ -163,11 +164,11 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   categoryAmount: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   progressContainer: {
     flexDirection: 'row',
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 4,
     marginRight: 10,
   },
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     width: 35,
   },
   actionButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     margin: 15,
     padding: 15,
     borderRadius: 12,
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   actionButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

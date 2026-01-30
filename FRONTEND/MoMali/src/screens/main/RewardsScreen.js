@@ -9,16 +9,17 @@ import {
   FlatList,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const RewardsScreen = () => {
   const [rewardsBalance] = useState(1250);
   const [selectedOffer, setSelectedOffer] = useState(null);
 
   const earningsBreakdown = [
-    { source: 'Savings Goals', points: 450, color: '#4CAF50' },
-    { source: 'Budget Adherence', points: 320, color: '#2196F3' },
-    { source: 'Weekly Challenges', points: 280, color: '#FF9800' },
-    { source: 'Referrals', points: 200, color: '#9C27B0' }
+    { source: 'Savings Goals', points: 450, color: Colors.light.primary },
+    { source: 'Budget Adherence', points: 320, color: Colors.light.primary },
+    { source: 'Weekly Challenges', points: 280, color: Colors.light.secondary },
+    { source: 'Referrals', points: 200, color: Colors.light.secondary }
   ];
 
   const activeOffers = [
@@ -28,7 +29,7 @@ const RewardsScreen = () => {
       description: 'Earn 100 points by staying under budget',
       points: 100,
       progress: 65,
-      color: '#4CAF50',
+      color: Colors.light.primary,
       icon: '💰'
     },
     {
@@ -37,7 +38,7 @@ const RewardsScreen = () => {
       description: 'Diversify your spending across pockets',
       points: 50,
       progress: 33,
-      color: '#2196F3',
+      color: Colors.light.primary,
       icon: '📊'
     },
     {
@@ -46,7 +47,7 @@ const RewardsScreen = () => {
       description: 'Review and update your monthly budget',
       points: 75,
       progress: 0,
-      color: '#FF9800',
+      color: Colors.light.secondary,
       icon: '📋'
     }
   ];
@@ -159,7 +160,7 @@ const RewardsScreen = () => {
       </View>
       <Text style={[
         styles.historyPoints,
-        { color: item.type === 'earned' ? '#4CAF50' : '#FF5722' }
+        { color: item.type === 'earned' ? Colors.light.primary : Colors.light.error }
       ]}>
         {item.points > 0 ? '+' : ''}{item.points}
       </Text>
@@ -172,7 +173,7 @@ const RewardsScreen = () => {
         <Text style={styles.challengeTitle}>{challenge.title}</Text>
         <View style={[
           styles.challengeStatus,
-          { backgroundColor: challenge.status === 'completed' ? '#4CAF50' : '#FF9800' }
+          { backgroundColor: challenge.status === 'completed' ? Colors.light.primary : Colors.light.secondary }
         ]}>
           <Text style={styles.challengeStatusText}>
             {challenge.status === 'completed' ? 'Completed' : `${challenge.daysLeft}d left`}
@@ -187,7 +188,7 @@ const RewardsScreen = () => {
               styles.progressFill, 
               { 
                 width: `${challenge.progress}%`,
-                backgroundColor: challenge.status === 'completed' ? '#4CAF50' : '#FF9800'
+                backgroundColor: challenge.status === 'completed' ? Colors.light.primary : Colors.light.secondary
               }
             ]} 
           />
@@ -286,57 +287,57 @@ const RewardsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   balanceCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 25,
     borderRadius: 12,
     alignItems: 'center',
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: Colors.light.primary,
   },
   balanceTitle: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 10,
   },
   balanceAmount: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#4CAF50',
+    color: Colors.light.primary,
     marginBottom: 5,
   },
   balanceSubtext: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 20,
   },
   redeemButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 30,
     paddingVertical: 12,
     borderRadius: 25,
   },
   redeemButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
   breakdownCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   breakdownItem: {
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   breakdownLeft: {
     flexDirection: 'row',
@@ -367,12 +368,12 @@ const styles = StyleSheet.create({
   },
   breakdownSource: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
   },
   breakdownPoints: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#4CAF50',
+    color: Colors.light.primary,
   },
   section: {
     marginHorizontal: 15,
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   offerCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     width: 200,
     padding: 15,
     borderRadius: 12,
@@ -398,25 +399,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   offerPoints: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
   },
   offerPointsText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
   offerTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 5,
   },
   offerDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 15,
   },
   offerProgress: {
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 6,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 3,
     marginRight: 10,
   },
@@ -436,11 +437,11 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   challengeCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
@@ -454,7 +455,7 @@ const styles = StyleSheet.create({
   challengeTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     flex: 1,
   },
   challengeStatus: {
@@ -463,13 +464,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   challengeStatusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
   challengeDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 12,
   },
   challengeProgress: {
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
   challengeReward: {
     fontSize: 12,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   redeemGrid: {
@@ -487,7 +488,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   redeemOption: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     width: '48%',
     padding: 15,
     borderRadius: 12,
@@ -501,17 +502,17 @@ const styles = StyleSheet.create({
   redeemTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     textAlign: 'center',
     marginBottom: 4,
   },
   redeemPoints: {
     fontSize: 12,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   historyContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 15,
   },
@@ -521,7 +522,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   historyLeft: {
     flexDirection: 'row',
@@ -545,12 +546,12 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   historyDate: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   historyPoints: {
     fontSize: 16,

@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { sendVerificationCode, verifyEmailCode } from '@/services/auth.service';
+
 
 function passwordStrength(pw: string) {
   let score = 0;
@@ -12,6 +14,24 @@ function passwordStrength(pw: string) {
   if (/[0-9]/.test(pw)) score++;
   if (/[^A-Za-z0-9]/.test(pw)) score++;
   return score; // 0..4
+}
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_REGEX = /^0\d{9}$/;
+
+function isValidDob(day: string, month: string, year: string) {
+  const dd = Number(day);
+  const mm = Number(month);
+  const yyyy = Number(year);
+  if (!dd || !mm || !yyyy) return false;
+  if (yyyy < 1900 || yyyy > new Date().getFullYear()) return false;
+  const dob = new Date(yyyy, mm - 1, dd);
+  if (dob.getFullYear() !== yyyy || dob.getMonth() !== mm - 1 || dob.getDate() !== dd) {
+    return false;
+  }
+  const today = new Date();
+  const age = today.getFullYear() - yyyy - (today < new Date(yyyy + (today.getMonth() < mm - 1 || (today.getMonth() === mm - 1 && today.getDate() < dd) ? 0 : 1), mm - 1, dd) ? 1 : 0);
+  return age >= 16;
 }
 
 export default function SignUpScreen() {
@@ -27,6 +47,10 @@ export default function SignUpScreen() {
   const [pw, setPw] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
+  const [maskedEmail, setMaskedEmail] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [success, setSuccess] = useState('');
 
   const strength = useMemo(() => passwordStrength(pw), [pw]);
   const ruleLength = pw.length >= 10;
@@ -37,30 +61,68 @@ export default function SignUpScreen() {
   const progress = step === 0 ? 0.25 : step === 1 ? 0.6 : 1;
 
   function nextFromInfo() {
-    if (!firstName.trim() || !surname.trim() || !email.trim() || !phone.trim() || !agree) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPhone = phone.replace(/\\s+/g, '');
+    if (!firstName.trim() || !surname.trim() || !normalizedEmail || !normalizedPhone || !agree) {
       setError('Please complete all required fields and accept the terms.');
+      return;
+    }
+    if (!EMAIL_REGEX.test(normalizedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (!PHONE_REGEX.test(normalizedPhone)) {
+      setError('Please enter a valid South African phone number.');
+      return;
+    }
+    if (!isValidDob(dobDay, dobMonth, dobYear)) {
+      setError('Please enter a valid date of birth (16+ years).');
       return;
     }
     setError('');
     setStep(1);
   }
 
-  function nextFromPassword() {
+  async function nextFromPassword() {
     if (strength < 3) {
       setError('Please choose a stronger password.');
       return;
     }
     setError('');
-    setStep(2);
+    setSuccess('');
+    setIsSending(true);
+    try {
+      const response = await sendVerificationCode(email.trim().toLowerCase());
+      setMaskedEmail(response.masked_email);
+      setStep(2);
+    } catch (err: any) {
+      setError(err?.message ?? 'Unable to send verification code.');
+    } finally {
+      setIsSending(false);
+    }
   }
 
-  function verifyCode() {
-    if (code.trim().length !== 6) {
+  async function verifyCode() {
+    if (!/^\\d{6}$/.test(code.trim())) {
       setError('Please enter the 6-digit code.');
       return;
     }
     setError('');
-    router.replace('/(auth)/login');
+    setSuccess('');
+    setIsVerifying(true);
+    try {
+      const response = await verifyEmailCode(email.trim().toLowerCase(), code.trim());
+      if (response.verified) {
+        setSuccess('Email verified successfully.');
+        router.replace('/(auth)/login');
+      } else {
+        setError('Verification failed. Please try again.');
+      }
+    } catch (err: any) {
+      setError(err?.message ?? 'Verification failed.');
+    } finally {
+      setIsVerifying(false);
+    }
   }
 
   return (
@@ -89,21 +151,36 @@ export default function SignUpScreen() {
             <TextInput style={styles.input} value={surname} onChangeText={setSurname} placeholder="Surname" />
 
             <Text style={styles.label}>Email address</Text>
-            <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Email" autoCapitalize="none" />
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+            />
 
             <Text style={styles.label}>Phone number</Text>
             <View style={styles.phoneRow}>
               <View style={styles.flagBox}>
                 <Text style={styles.flagText}>+27</Text>
               </View>
-              <TextInput style={[styles.input, { flex: 1 }]} value={phone} onChangeText={setPhone} placeholder="Phone number" keyboardType="phone-pad" />
+              <TextInput
+                style={[styles.input, { flex: 1 }]}
+                value={phone}
+                onChangeText={setPhone}
+                placeholder="Phone number"
+                keyboardType="phone-pad"
+                maxLength={10}
+              />
             </View>
 
             <Text style={styles.label}>Date of birth</Text>
             <View style={styles.dobRow}>
-              <TextInput style={[styles.input, styles.dob]} value={dobDay} onChangeText={setDobDay} placeholder="dd" keyboardType="number-pad" />
-              <TextInput style={[styles.input, styles.dob]} value={dobMonth} onChangeText={setDobMonth} placeholder="mm" keyboardType="number-pad" />
-              <TextInput style={[styles.input, styles.dob]} value={dobYear} onChangeText={setDobYear} placeholder="yyyy" keyboardType="number-pad" />
+              <TextInput style={[styles.input, styles.dob]} value={dobDay} onChangeText={setDobDay} placeholder="dd" keyboardType="number-pad" maxLength={2} />
+              <TextInput style={[styles.input, styles.dob]} value={dobMonth} onChangeText={setDobMonth} placeholder="mm" keyboardType="number-pad" maxLength={2} />
+              <TextInput style={[styles.input, styles.dob]} value={dobYear} onChangeText={setDobYear} placeholder="yyyy" keyboardType="number-pad" maxLength={4} />
             </View>
 
             <Pressable style={styles.termsRow} onPress={() => setAgree((v) => !v)} accessibilityRole="button">
@@ -129,7 +206,7 @@ export default function SignUpScreen() {
             </View>
 
             <Text style={styles.label}>Password</Text>
-            <TextInput style={styles.input} value={pw} onChangeText={setPw} placeholder="Password" secureTextEntry />
+            <TextInput style={styles.input} value={pw} onChangeText={setPw} placeholder="Password" secureTextEntry autoCapitalize="none" />
 
             <View style={styles.rules}>
               <RuleItem ok={ruleLength} label="At least 10 characters" />
@@ -141,8 +218,8 @@ export default function SignUpScreen() {
 
             {error ? <Text style={styles.error}>{error}</Text> : null}
 
-            <Pressable style={styles.primaryBtn} onPress={nextFromPassword} accessibilityRole="button">
-              <Text style={styles.primaryText}>Continue</Text>
+            <Pressable style={[styles.primaryBtn, isSending && styles.primaryBtnDisabled]} onPress={nextFromPassword} accessibilityRole="button" disabled={isSending}>
+              <Text style={styles.primaryText}>{isSending ? 'Sending...' : 'Continue'}</Text>
             </Pressable>
           </>
         )}
@@ -152,13 +229,18 @@ export default function SignUpScreen() {
             <Text style={styles.title}>Email Verification</Text>
             <ProgressBar value={progress} />
 
-            <Text style={styles.sub}>Enter the 6-digit code sent to {email || 'your email'}.</Text>
-            <TextInput style={styles.input} value={code} onChangeText={setCode} placeholder="Verification code" keyboardType="number-pad" />
+            <Text style={styles.sub}>Enter the 6-digit code sent to {maskedEmail || email || 'your email'}.</Text>
+            <TextInput style={styles.input} value={code} onChangeText={setCode} placeholder="Verification code" keyboardType="number-pad" maxLength={6} />
 
             {error ? <Text style={styles.error}>{error}</Text> : null}
+            {success ? <Text style={styles.success}>{success}</Text> : null}
 
-            <Pressable style={styles.primaryBtn} onPress={verifyCode} accessibilityRole="button">
-              <Text style={styles.primaryText}>Verify</Text>
+            <Pressable style={[styles.primaryBtn, isVerifying && styles.primaryBtnDisabled]} onPress={verifyCode} accessibilityRole="button" disabled={isVerifying}>
+              <Text style={styles.primaryText}>{isVerifying ? 'Verifying...' : 'Verify'}</Text>
+            </Pressable>
+
+            <Pressable style={styles.linkButton} onPress={nextFromPassword} accessibilityRole="button" disabled={isSending}>
+              <Text style={styles.linkButtonText}>{isSending ? 'Sending...' : 'Resend code'}</Text>
             </Pressable>
           </>
         )}
@@ -190,7 +272,7 @@ const styles = StyleSheet.create({
   },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   iconBtn: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
-  iconText: { fontSize: 30, color: Colors.light.text },
+  iconText: { fontSize: 35, color: Colors.light.text },
   logo: { width: 140, height: 140, alignSelf: 'center' },
   title: { fontSize: Typography.title, fontWeight: '800', color: Colors.light.text },
   sub: { color: Colors.light.mutedText },
@@ -213,9 +295,13 @@ const styles = StyleSheet.create({
   checkboxOn: { backgroundColor: Colors.light.primary },
   termsText: { flex: 1, color: Colors.light.text, fontWeight: '600' },
   error: { color: Colors.light.error, fontWeight: '600' },
-  primaryBtn: { marginTop: Spacing.sm, backgroundColor: '#0E1A33', borderRadius: Radii.button, paddingVertical: Spacing.sm, alignItems: 'center', minHeight: 44 },
-  primaryText: { color: '#ffff', fontWeight: '800' },
-  shield: { alignSelf: 'center', width: 80, height: 80, borderRadius: 40, backgroundColor: '#FFF4C2', alignItems: 'center', justifyContent: 'center', marginTop: Spacing.sm },
+  success: { color: Colors.light.success, fontWeight: '700' },
+  primaryBtn: { marginTop: Spacing.sm, backgroundColor: Colors.light.primary, borderRadius: Radii.button, paddingVertical: Spacing.sm, alignItems: 'center', minHeight: 44 },
+  primaryBtnDisabled: { opacity: 0.7 },
+  primaryText: { color: Colors.light.onAccent, fontWeight: '800' },
+  linkButton: { marginTop: Spacing.xs, alignSelf: 'center' },
+  linkButtonText: { color: Colors.light.primary, fontWeight: '700' },
+  shield: { alignSelf: 'center', width: 80, height: 80, borderRadius: 40, backgroundColor: Colors.light.mint, alignItems: 'center', justifyContent: 'center', marginTop: Spacing.sm },
   lockImage: { width: 76, height: 86 },
   rules: { gap: 6 },
   ruleRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.xs },

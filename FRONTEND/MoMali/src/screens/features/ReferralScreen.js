@@ -11,6 +11,7 @@ import {
   Share,
   Linking
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const ReferralScreen = ({ navigation }) => {
   const [showTerms, setShowTerms] = useState(false);
@@ -67,10 +68,10 @@ const ReferralScreen = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'completed': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'locked': return '#ddd';
-      default: return '#666';
+      case 'completed': return Colors.light.primary;
+      case 'pending': return Colors.light.secondary;
+      case 'locked': return Colors.light.border;
+      default: return Colors.light.mutedText;
     }
   };
 
@@ -119,7 +120,7 @@ const ReferralScreen = ({ navigation }) => {
         </TouchableOpacity>
         
         <TouchableOpacity 
-          style={[styles.shareButton, { backgroundColor: '#666' }]}
+          style={[styles.shareButton, { backgroundColor: Colors.light.mutedText }]}
           onPress={() => handleShare('general')}
         >
           <Text style={styles.shareIcon}>📤</Text>
@@ -282,30 +283,30 @@ const ReferralScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 50,
   },
   heroSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 30,
     alignItems: 'center',
     marginBottom: 15,
@@ -317,17 +318,17 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   heroDescription: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
     lineHeight: 20,
   },
   codeSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -335,13 +336,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   codeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
@@ -350,27 +351,27 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     letterSpacing: 2,
   },
   copyButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 6,
   },
   copyButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   codeDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
   },
   shareSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -391,12 +392,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   shareText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
   rewardSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -412,17 +413,17 @@ const styles = StyleSheet.create({
   rewardValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#4CAF50',
+    color: Colors.light.primary,
     marginBottom: 4,
   },
   rewardLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   milestonesTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   milestoneItem: {
@@ -431,7 +432,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   milestoneLeft: {
     flexDirection: 'row',
@@ -447,7 +448,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   milestoneIconText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -456,12 +457,12 @@ const styles = StyleSheet.create({
   },
   milestoneText: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   milestoneReward: {
     fontSize: 12,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   milestoneStatus: {
@@ -470,12 +471,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   milestoneStatusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
   friendsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   friendLeft: {
     flexDirection: 'row',
@@ -497,13 +498,13 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
   },
   friendInitial: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -513,12 +514,12 @@ const styles = StyleSheet.create({
   friendName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   friendDate: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   friendRight: {
     alignItems: 'flex-end',
@@ -526,7 +527,7 @@ const styles = StyleSheet.create({
   friendReward: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#4CAF50',
+    color: Colors.light.primary,
     marginBottom: 4,
   },
   friendStatus: {
@@ -535,12 +536,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   friendStatusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 8,
     fontWeight: '600',
   },
   termsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     borderRadius: 12,
     overflow: 'hidden',
@@ -554,17 +555,17 @@ const styles = StyleSheet.create({
   },
   termsArrow: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   termsContent: {
     padding: 20,
     paddingTop: 0,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
   },
   termsText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 18,
   },
 });

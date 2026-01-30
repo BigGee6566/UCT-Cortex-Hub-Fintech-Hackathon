@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { Colors } from '@/constants/theme';
 import MoneyOverviewCard from '../../components/dashboard/MoneyOverviewCard';
 import PocketCard from '../../components/dashboard/PocketCard';
 import QuickActions from '../../components/dashboard/QuickActions';
@@ -14,9 +15,9 @@ const DashboardScreen = () => {
   });
 
   const pockets = [
-    { id: 1, name: 'Daily Spending', amount: 450, budget: 600, color: '#4CAF50' },
-    { id: 2, name: 'Bills & Subscriptions', amount: 280, budget: 400, color: '#FF9800' },
-    { id: 3, name: 'Emergency Buffer', amount: 1200, budget: 1500, color: '#2196F3' }
+    { id: 1, name: 'Daily Spending', amount: 450, budget: 600, color: Colors.light.primary },
+    { id: 2, name: 'Bills & Subscriptions', amount: 280, budget: 400, color: Colors.light.secondary },
+    { id: 3, name: 'Emergency Buffer', amount: 1200, budget: 1500, color: Colors.light.surfaceAlt }
   ];
 
   const recentTransactions = [
@@ -84,35 +85,35 @@ const DashboardScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   welcomeText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   dateText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 4,
   },
   profileIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   profileInitial: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   pocketsScroll: {
@@ -133,25 +134,25 @@ const styles = StyleSheet.create({
   rewardsCard: {
     margin: 20,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: Colors.light.primary,
   },
   rewardsTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
   },
   rewardsText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 8,
   },
   rewardsProgress: {
     fontSize: 12,
-    color: '#FF9800',
+    color: Colors.light.secondary,
     fontWeight: '500',
   },
 });

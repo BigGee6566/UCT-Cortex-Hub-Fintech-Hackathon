@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,11 @@ import {
   Switch,
   Alert
 } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Colors } from '@/constants/theme';
 
 const ProfileScreen = () => {
-  // Mock navigation for now
-  const navigation = {
-    navigate: (screenName) => {
-      Alert.alert('Navigation', `Would navigate to ${screenName}`);
-    }
-  };
+  const router = useRouter();
   const [expandedSections, setExpandedSections] = useState({
     financial: false,
     income: false,
@@ -99,6 +96,10 @@ const ProfileScreen = () => {
     );
   };
 
+  const handleComingSoon = (title) => {
+    Alert.alert(title, 'This feature is coming soon.');
+  };
+
   const renderProfileCard = () => (
     <View style={styles.profileCard}>
       <View style={styles.avatarContainer}>
@@ -109,7 +110,7 @@ const ProfileScreen = () => {
         <Text style={styles.profileEmail}>{userProfile.email}</Text>
         <Text style={styles.memberSince}>Member since {userProfile.memberSince}</Text>
       </View>
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={() => handleComingSoon('Edit Profile')}>
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
     </View>
@@ -130,7 +131,11 @@ const ProfileScreen = () => {
       {expandedSections[sectionKey] && (
         <View style={styles.sectionContent}>
           {customContent || items.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.settingsItem} onPress={item.action}>
+            <TouchableOpacity
+              key={index}
+              style={styles.settingsItem}
+              onPress={() => (item.toggle ? item.onToggle?.() : (item.action ? item.action() : handleComingSoon(item.title)))}
+            >
               <View style={styles.settingsLeft}>
                 <Text style={styles.settingsIcon}>{item.icon}</Text>
                 <View style={styles.settingsText}>
@@ -145,11 +150,11 @@ const ProfileScreen = () => {
                   <Switch
                     value={item.value}
                     onValueChange={item.onToggle}
-                    trackColor={{ false: '#ddd', true: '#4CAF50' }}
-                    thumbColor={item.value ? '#fff' : '#f4f3f4'}
+                    trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
+                    thumbColor={item.value ? Colors.light.card : '#f4f3f4'}
                   />
                 ) : (
-                  <Text style={styles.settingsArrow}>▶</Text>
+                  <Text style={styles.settingsArrow}>›</Text>
                 )}
               </View>
             </TouchableOpacity>
@@ -178,11 +183,11 @@ const ProfileScreen = () => {
               <Switch
                 value={item.value}
                 onValueChange={item.onToggle}
-                trackColor={{ false: '#ddd', true: '#4CAF50' }}
-                thumbColor={item.value ? '#fff' : '#f4f3f4'}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
+                thumbColor={item.value ? Colors.light.card : '#f4f3f4'}
               />
             ) : (
-              <Text style={styles.settingsArrow}>▶</Text>
+              <Text style={styles.settingsArrow}>›</Text>
             )}
           </View>
         </TouchableOpacity>
@@ -193,7 +198,7 @@ const ProfileScreen = () => {
   const renderIncomeSourcesContent = () => (
     <View>
       <View style={styles.addButtonContainer}>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => handleComingSoon('Add Income Source')}>
           <Text style={styles.addButtonText}>+ Add Income Source</Text>
         </TouchableOpacity>
       </View>
@@ -208,9 +213,9 @@ const ProfileScreen = () => {
           <View style={styles.incomeSourceRight}>
             <View style={[
               styles.statusDot,
-              { backgroundColor: source.active ? '#4CAF50' : '#ddd' }
+              { backgroundColor: source.active ? Colors.light.primary : Colors.light.border }
             ]} />
-            <Text style={styles.settingsArrow}>▶</Text>
+            <Text style={styles.settingsArrow}>›</Text>
           </View>
         </View>
       ))}
@@ -220,12 +225,16 @@ const ProfileScreen = () => {
   const renderBankConnectionsContent = () => (
     <View>
       <View style={styles.addButtonContainer}>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => router.push('/bank-providers')}>
           <Text style={styles.addButtonText}>+ Connect Bank</Text>
         </TouchableOpacity>
       </View>
       {bankConnections.map(bank => (
-        <View key={bank.id} style={styles.bankConnectionItem}>
+        <TouchableOpacity
+          key={bank.id}
+          style={styles.bankConnectionItem}
+          onPress={() => handleComingSoon(`Manage ${bank.bank}`)}
+        >
           <View style={styles.bankConnectionLeft}>
             <Text style={styles.bankName}>{bank.bank}</Text>
             <Text style={styles.bankDetails}>
@@ -235,14 +244,14 @@ const ProfileScreen = () => {
           <View style={styles.bankConnectionRight}>
             <View style={[
               styles.connectionStatus,
-              { backgroundColor: bank.connected ? '#4CAF50' : '#FF5722' }
+              { backgroundColor: bank.connected ? Colors.light.primary : Colors.light.error }
             ]}>
               <Text style={styles.connectionStatusText}>
                 {bank.connected ? 'Connected' : 'Disconnected'}
               </Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
@@ -266,9 +275,9 @@ const ProfileScreen = () => {
           <View style={styles.incomeSourceRight}>
             <View style={[
               styles.statusDot,
-              { backgroundColor: source.active ? '#4CAF50' : '#ddd' }
+              { backgroundColor: source.active ? Colors.light.primary : Colors.light.border }
             ]} />
-            <Text style={styles.settingsArrow}>▶</Text>
+            <Text style={styles.settingsArrow}>›</Text>
           </View>
         </View>
       ))}
@@ -294,7 +303,7 @@ const ProfileScreen = () => {
           <View style={styles.bankConnectionRight}>
             <View style={[
               styles.connectionStatus,
-              { backgroundColor: bank.connected ? '#4CAF50' : '#FF5722' }
+              { backgroundColor: bank.connected ? Colors.light.primary : Colors.light.error }
             ]}>
               <Text style={styles.connectionStatusText}>
                 {bank.connected ? 'Connected' : 'Disconnected'}
@@ -307,13 +316,13 @@ const ProfileScreen = () => {
   );
 
   const financialSettings = [
-    { icon: '💰', title: 'Default Currency', subtitle: 'South African Rand (ZAR)' },
-    { icon: '📊', title: 'Budget Period', subtitle: 'Monthly' },
-    { icon: '🎯', title: 'Financial Goals', subtitle: 'Manage your savings goals' },
-    { icon: '📈', title: 'Investment Preferences', subtitle: 'Risk tolerance and preferences' },
-    { icon: '🏥', title: 'Financial Health', subtitle: 'View your financial health score', action: () => navigation?.navigate('FinancialHealth') },
-    { icon: '🎁', title: 'Refer Friends', subtitle: 'Earn rewards by inviting friends', action: () => navigation?.navigate('Referral') },
-    { icon: '🗺️', title: 'Nearby Offers', subtitle: 'Find deals and discounts near you', action: () => navigation?.navigate('MerchantOffers') }
+    { icon: '💰', title: 'Default Currency', subtitle: 'South African Rand (ZAR)', action: () => handleComingSoon('Default Currency') },
+    { icon: '📊', title: 'Budget Period', subtitle: 'Monthly', action: () => handleComingSoon('Budget Period') },
+    { icon: '🎯', title: 'Financial Goals', subtitle: 'Manage your savings goals', action: () => handleComingSoon('Financial Goals') },
+    { icon: '📈', title: 'Investment Preferences', subtitle: 'Risk tolerance and preferences', action: () => handleComingSoon('Investment Preferences') },
+    { icon: '🏥', title: 'Financial Health', subtitle: 'View your financial health score', action: () => router.push('/financial-health') },
+    { icon: '🎁', title: 'Refer Friends', subtitle: 'Earn rewards by inviting friends', action: () => router.push('/referral') },
+    { icon: '🗺️', title: 'Nearby Offers', subtitle: 'Find deals and discounts near you', action: () => router.push('/merchant-offers') }
   ];
 
   const notificationItems = [
@@ -386,35 +395,35 @@ const ProfileScreen = () => {
       value: securitySettings.autoLock,
       onToggle: () => handleSecurityToggle('autoLock')
     },
-    { icon: '🔑', title: 'Change Password', subtitle: 'Update your login password' },
-    { icon: '📱', title: 'Trusted Devices', subtitle: 'Manage authorized devices' }
+    { icon: '🔑', title: 'Change Password', subtitle: 'Update your login password', action: () => handleComingSoon('Change Password') },
+    { icon: '📱', title: 'Trusted Devices', subtitle: 'Manage authorized devices', action: () => handleComingSoon('Trusted Devices') }
   ];
 
   const privacyItems = [
-    { icon: '🛡️', title: 'Privacy Policy', subtitle: 'How we protect your data' },
-    { icon: '📋', title: 'Terms of Service', subtitle: 'Our terms and conditions' },
-    { icon: '📊', title: 'Data Usage', subtitle: 'See how your data is used' },
-    { icon: '⬇️', title: 'Export Data', subtitle: 'Download your information' },
-    { icon: '🗑️', title: 'Delete Account', subtitle: 'Permanently remove your account' }
+    { icon: '🛡️', title: 'Privacy Policy', subtitle: 'How we protect your data', action: () => handleComingSoon('Privacy Policy') },
+    { icon: '📋', title: 'Terms of Service', subtitle: 'Our terms and conditions', action: () => handleComingSoon('Terms of Service') },
+    { icon: '📊', title: 'Data Usage', subtitle: 'See how your data is used', action: () => handleComingSoon('Data Usage') },
+    { icon: '⬇️', title: 'Export Data', subtitle: 'Download your information', action: () => handleComingSoon('Export Data') },
+    { icon: '🗑️', title: 'Delete Account', subtitle: 'Permanently remove your account', action: () => handleComingSoon('Delete Account') }
   ];
 
   const supportItems = [
-    { icon: '❓', title: 'FAQ', subtitle: 'Frequently asked questions' },
-    { icon: '💬', title: 'Contact Support', subtitle: 'Get help from our team' },
-    { icon: '📞', title: 'Call Us', subtitle: '+27 11 123 4567' },
-    { icon: '⭐', title: 'Rate App', subtitle: 'Share your feedback' },
-    { icon: '🐛', title: 'Report Bug', subtitle: 'Help us improve the app' },
-    { icon: '🏦', title: 'Bank Connections', subtitle: 'Manage your connected accounts', action: () => navigation?.navigate('BankConnection') },
-    { icon: '🔗', title: 'Open Finance Manager', subtitle: 'View and manage account connections', action: () => navigation?.navigate('OpenFinanceManager') },
-    { icon: '💳', title: 'Bills & Subscriptions', subtitle: 'Manage recurring payments', action: () => navigation?.navigate('Bills') },
-    { icon: '📋', title: 'Transaction Details', subtitle: 'View detailed transaction information', action: () => navigation?.navigate('TransactionDetail') }
+    { icon: '❓', title: 'FAQ', subtitle: 'Frequently asked questions', action: () => handleComingSoon('FAQ') },
+    { icon: '💬', title: 'Contact Support', subtitle: 'Get help from our team', action: () => handleComingSoon('Contact Support') },
+    { icon: '📞', title: 'Call Us', subtitle: '+27 11 123 4567', action: () => handleComingSoon('Call Us') },
+    { icon: '⭐', title: 'Rate App', subtitle: 'Share your feedback', action: () => handleComingSoon('Rate App') },
+    { icon: '🐛', title: 'Report Bug', subtitle: 'Help us improve the app', action: () => handleComingSoon('Report Bug') },
+    { icon: '🏦', title: 'Bank Connections', subtitle: 'Manage your connected accounts', action: () => router.push('/bank-providers') },
+    { icon: '🔗', title: 'Open Finance Manager', subtitle: 'View and manage account connections', action: () => router.push('/open-finance') },
+    { icon: '💳', title: 'Bills & Subscriptions', subtitle: 'Manage recurring payments', action: () => router.push('/bills') },
+    { icon: '📋', title: 'Transaction Details', subtitle: 'View detailed transaction information', action: () => router.push('/transaction-detail') }
   ];
 
   const aboutItems = [
-    { icon: '📱', title: 'App Version', subtitle: '2.1.0 (Build 210)' },
-    { icon: '🔄', title: 'Check for Updates', subtitle: 'Latest version available' },
-    { icon: '📜', title: 'Release Notes', subtitle: "What's new in this version" },
-    { icon: '🏢', title: 'About MoMali', subtitle: 'Learn more about our company' }
+    { icon: '📱', title: 'App Version', subtitle: '2.1.0 (Build 210)', action: () => handleComingSoon('App Version') },
+    { icon: '🔄', title: 'Check for Updates', subtitle: 'Latest version available', action: () => handleComingSoon('Check for Updates') },
+    { icon: '📜', title: 'Release Notes', subtitle: "What's new in this version", action: () => handleComingSoon('Release Notes') },
+    { icon: '🏢', title: 'About MoMali', subtitle: 'Learn more about our company', action: () => handleComingSoon('About MoMali') }
   ];
 
   return (
@@ -464,21 +473,21 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   profileCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -489,14 +498,14 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
   },
   avatar: {
     fontSize: 24,
-    color: '#fff',
+    color: Colors.light.text,
   },
   profileInfo: {
     flex: 1,
@@ -504,31 +513,31 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   profileEmail: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 2,
   },
   memberSince: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.light.mutedText,
   },
   editButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
   },
   editButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   settingsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     borderRadius: 12,
     overflow: 'hidden',
@@ -538,35 +547,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   dropdownArrow: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: 'bold',
   },
   sectionContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   addButtonContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   addButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
     alignSelf: 'flex-start',
   },
   addButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -577,7 +586,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   settingsLeft: {
     flexDirection: 'row',
@@ -595,19 +604,19 @@ const styles = StyleSheet.create({
   settingsTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   settingsSubtitle: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   settingsRight: {
     alignItems: 'center',
   },
   settingsArrow: {
     fontSize: 12,
-    color: '#ccc',
+    color: Colors.light.border,
   },
   incomeSourceItem: {
     flexDirection: 'row',
@@ -616,7 +625,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   incomeSourceLeft: {
     flex: 1,
@@ -624,12 +633,12 @@ const styles = StyleSheet.create({
   incomeSourceName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   incomeSourceDetails: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   incomeSourceRight: {
     flexDirection: 'row',
@@ -648,7 +657,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   bankConnectionLeft: {
     flex: 1,
@@ -656,12 +665,12 @@ const styles = StyleSheet.create({
   bankName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   bankDetails: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   bankConnectionRight: {
     alignItems: 'flex-end',
@@ -672,12 +681,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   connectionStatusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
   logoutButton: {
-    backgroundColor: '#FF5722',
+    backgroundColor: Colors.light.error,
     margin: 15,
     padding: 15,
     borderRadius: 12,
@@ -685,7 +694,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   logoutButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

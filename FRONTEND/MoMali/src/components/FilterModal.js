@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const FilterModal = ({ 
   visible, 
@@ -21,10 +22,10 @@ const FilterModal = ({
   const [transactionType, setTransactionType] = useState(initialFilters.type || 'all');
 
   const pockets = [
-    { id: 1, name: 'Daily Spending', color: '#4CAF50' },
-    { id: 2, name: 'Bills & Subscriptions', color: '#FF9800' },
-    { id: 3, name: 'Emergency Buffer', color: '#2196F3' },
-    { id: 4, name: 'Savings Goal', color: '#9C27B0' }
+    { id: 1, name: 'Daily Spending', color: Colors.light.primary },
+    { id: 2, name: 'Bills & Subscriptions', color: Colors.light.secondary },
+    { id: 3, name: 'Emergency Buffer', color: Colors.light.primary },
+    { id: 4, name: 'Savings Goal', color: Colors.light.secondary }
   ];
 
   const categories = [
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '80%',
@@ -271,24 +272,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   closeButton: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeText: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   content: {
     flex: 1,
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 12,
   },
   pocketChip: {
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     marginRight: 10,
   },
   pocketDot: {
@@ -327,19 +328,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     marginBottom: 8,
   },
   selectedChip: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
   },
   chipText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   selectedChipText: {
-    color: '#fff',
+    color: Colors.light.text,
   },
   datePresets: {
     marginBottom: 15,
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     marginRight: 10,
   },
   customDateRange: {
@@ -361,19 +362,19 @@ const styles = StyleSheet.create({
   },
   dateLabel: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 5,
   },
   dateInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 14,
   },
   toggleContainer: {
     flexDirection: 'row',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     borderRadius: 25,
     padding: 4,
   },
@@ -384,46 +385,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedToggle: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
   },
   toggleText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   selectedToggleText: {
-    color: '#fff',
+    color: Colors.light.text,
   },
   footer: {
     flexDirection: 'row',
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
   },
   resetButton: {
     flex: 1,
     paddingVertical: 15,
     borderRadius: 10,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
     alignItems: 'center',
     marginRight: 10,
   },
   resetButtonText: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '600',
   },
   applyButton: {
     flex: 2,
     paddingVertical: 15,
     borderRadius: 10,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     alignItems: 'center',
     marginLeft: 10,
   },
   applyButtonText: {
     fontSize: 16,
-    color: '#fff',
+    color: Colors.light.text,
     fontWeight: '600',
   },
 });

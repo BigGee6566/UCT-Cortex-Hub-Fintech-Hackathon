@@ -6,6 +6,7 @@ import { defaultQuestionnaire, getQuestionnaire, saveQuestionnaire } from '@/ser
 import { setAppState } from '@/services/appState.service'; // if you already use it
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 export default function GoalsScreen() {
   const [data, setData] = useState<QuestionnaireAnswers | null>(null);
 
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
 
   btn: {
     flex: 1,
-    backgroundColor: '#0E1A33',
+    backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
@@ -245,12 +246,12 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: '#FFFFFF', fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
   btnGhost: {
     flex: 1,
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#1B2A4A',
+    borderColor: Colors.light.card,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
@@ -258,6 +259,5 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnGhostText: { color: '#0E1A33', fontWeight: '800' },
+  btnGhostText: { color: Colors.light.primary, fontWeight: '800' },
 });
-

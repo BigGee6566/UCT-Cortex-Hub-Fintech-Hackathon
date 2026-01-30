@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
+import { Colors } from '@/constants/theme';
 
 export default function LoaderScreen() {
   const spin = useRef(new Animated.Value(0)).current;
@@ -52,6 +53,6 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     borderWidth: 4,
     borderColor: 'rgba(255,255,255,0.6)',
-    borderTopColor: '#FFFFFF',
+    borderTopColor: Colors.light.card,
   },
 });

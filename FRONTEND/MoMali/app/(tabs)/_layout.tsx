@@ -27,7 +27,7 @@ export default function TabLayout() {
         name="transactions"
         options={{
           title: 'Transactions',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -40,8 +40,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="coach"
         options={{
-          title: 'Coach',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="heart.fill" color={color} />,
+          title: 'Emergency',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="exclamationmark.triangle.fill" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -49,6 +49,13 @@ export default function TabLayout() {
          options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: 'Insights',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="sparkles" color={color} />,
         }}
       />
     </Tabs>

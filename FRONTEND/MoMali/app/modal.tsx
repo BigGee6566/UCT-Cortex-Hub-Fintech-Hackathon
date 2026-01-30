@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, Switch } from 'react-native';
 import { router } from 'expo-router';
 import { saveConsent } from '@/services/consent.service';
 import type { ConsentState } from '@/types/consent';
+import { Colors } from '@/constants/theme';
 
 export default function ConsentModal() {
   const [scopes, setScopes] = useState<ConsentState['scopes']>({
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center', gap: 12 },
   title: { fontSize: 22, fontWeight: '800' },
   subtitle: { opacity: 0.75, lineHeight: 20 },
-  card: { borderWidth: 1, borderColor: '#ddd', borderRadius: 14, padding: 14, gap: 10 },
+  card: { borderWidth: 1, borderColor: Colors.light.border, borderRadius: 14, padding: 14, gap: 10 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   rowLabel: { fontSize: 16, fontWeight: '600' },
   meta: { textAlign: 'center', opacity: 0.7 },
@@ -110,6 +111,6 @@ const styles = StyleSheet.create({
   btnGhost: { borderWidth: 1, borderColor: '#111', backgroundColor: 'transparent' },
   btnPrimary: { backgroundColor: '#111' },
   btnText: { fontWeight: '800' },
-  btnTextLight: { color: '#fff' },
+  btnTextLight: { color: Colors.light.text },
   btnTextDark: { color: '#111' },
 });

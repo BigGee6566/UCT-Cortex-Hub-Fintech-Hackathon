@@ -10,6 +10,7 @@ import {
   Linking,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const EmergencyModeScreen = ({ navigation }) => {
   const [currentBalance, setCurrentBalance] = useState('1250');
@@ -113,7 +114,7 @@ const EmergencyModeScreen = ({ navigation }) => {
   ];
 
   const renderAlertHeader = () => (
-    <View style={[styles.alertHeader, { backgroundColor: isEmergencyActive ? '#FF5722' : '#FF9800' }]}>
+    <View style={[styles.alertHeader, { backgroundColor: isEmergencyActive ? Colors.light.error : Colors.light.secondary }]}>
       <Text style={styles.alertIcon}>⚠️</Text>
       <View style={styles.alertContent}>
         <Text style={styles.alertTitle}>
@@ -267,7 +268,7 @@ const EmergencyModeScreen = ({ navigation }) => {
           <TouchableOpacity 
             style={[
               styles.emergencyToggle,
-              { backgroundColor: isEmergencyActive ? '#FF5722' : '#4CAF50' }
+              { backgroundColor: isEmergencyActive ? Colors.light.error : Colors.light.primary }
             ]}
             onPress={isEmergencyActive ? deactivateEmergencyMode : activateEmergencyMode}
           >
@@ -304,24 +305,24 @@ const EmergencyModeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 50,
@@ -343,12 +344,12 @@ const styles = StyleSheet.create({
   alertTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   alertSubtitle: {
     fontSize: 12,
-    color: '#fff',
+    color: Colors.light.text,
     opacity: 0.9,
   },
   toggleSection: {
@@ -361,12 +362,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emergencyToggleText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
   calculatorSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -374,12 +375,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   sectionDescription: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 15,
     lineHeight: 20,
   },
@@ -388,26 +389,26 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
     fontWeight: '500',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
   },
   calculateButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 15,
   },
   calculateButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -434,13 +435,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   freezeSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
   },
   freezeItem: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
@@ -454,26 +455,26 @@ const styles = StyleSheet.create({
   freezeCategory: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   freezeSavings: {
     fontSize: 12,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   freezeItems: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   resourcesSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
   },
   resourceItem: {
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
     paddingBottom: 15,
     marginBottom: 15,
   },
@@ -492,12 +493,12 @@ const styles = StyleSheet.create({
   resourceName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   resourceDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 16,
   },
   resourceActions: {
@@ -505,18 +506,18 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   resourceButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 6,
   },
   resourceButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
   contactsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -526,7 +527,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 12,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     borderRadius: 8,
     marginBottom: 10,
   },
@@ -536,17 +537,17 @@ const styles = StyleSheet.create({
   contactName: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   contactNumber: {
     fontSize: 12,
-    color: '#2196F3',
+    color: Colors.light.primary,
     marginBottom: 2,
   },
   contactAvailable: {
     fontSize: 10,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   callIcon: {
     fontSize: 20,

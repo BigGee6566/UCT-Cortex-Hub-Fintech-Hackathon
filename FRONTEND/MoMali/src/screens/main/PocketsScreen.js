@@ -10,6 +10,7 @@ import {
   TextInput,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const PocketsScreen = () => {
   const [expandedPocket, setExpandedPocket] = useState(null);
@@ -30,7 +31,7 @@ const PocketsScreen = () => {
       name: 'Daily Spending', 
       amount: 450, 
       budget: 600, 
-      color: '#4CAF50',
+      color: Colors.light.primary,
       description: 'Food, transport, and daily expenses',
       transactions: [
         { id: 1, title: 'Grocery Store', amount: -45.50, date: '2024-01-15' },
@@ -42,7 +43,7 @@ const PocketsScreen = () => {
       name: 'Bills & Subscriptions', 
       amount: 280, 
       budget: 400, 
-      color: '#FF9800',
+      color: Colors.light.secondary,
       description: 'Monthly bills and recurring payments',
       transactions: [
         { id: 3, title: 'Netflix', amount: -15.99, date: '2024-01-14' },
@@ -54,7 +55,7 @@ const PocketsScreen = () => {
       name: 'Emergency Buffer', 
       amount: 1200, 
       budget: 1500, 
-      color: '#2196F3',
+      color: Colors.light.primary,
       description: 'Emergency fund for unexpected expenses',
       transactions: []
     },
@@ -63,7 +64,7 @@ const PocketsScreen = () => {
       name: 'Savings Goal', 
       amount: 800, 
       budget: 1000, 
-      color: '#9C27B0',
+      color: Colors.light.secondary,
       description: 'Saving for vacation',
       transactions: [
         { id: 5, title: 'Monthly Transfer', amount: 200, date: '2024-01-01' }
@@ -191,7 +192,7 @@ const PocketsScreen = () => {
                     </View>
                     <Text style={[
                       styles.transactionAmount,
-                      { color: transaction.amount >= 0 ? '#4CAF50' : '#333' }
+                      { color: transaction.amount >= 0 ? Colors.light.primary : Colors.light.text }
                     ]}>
                       {transaction.amount >= 0 ? '+' : ''}R{Math.abs(transaction.amount).toFixed(2)}
                     </Text>
@@ -478,21 +479,21 @@ const PocketsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -500,7 +501,7 @@ const styles = StyleSheet.create({
   overviewTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   overviewStats: {
@@ -513,15 +514,15 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   chartContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -531,7 +532,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
@@ -539,11 +540,11 @@ const styles = StyleSheet.create({
   chartCenterText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   chartSubText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   chartLegend: {
     width: '100%',
@@ -561,12 +562,12 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
   },
   dropdownLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 8,
     marginTop: 15,
   },
@@ -575,24 +576,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     marginBottom: 10,
   },
   dropdownText: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
   },
   dropdownArrow: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   dropdownOptions: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     marginBottom: 10,
     maxHeight: 150,
   },
@@ -601,11 +602,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   dropdownOptionText: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
     marginLeft: 8,
   },
   pocketDot: {
@@ -615,7 +616,7 @@ const styles = StyleSheet.create({
   },
   amountInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -623,14 +624,14 @@ const styles = StyleSheet.create({
   },
   availableAmount: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 15,
   },
   transferVisualization: {
     alignItems: 'center',
     marginVertical: 20,
     padding: 15,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     borderRadius: 8,
   },
   transferRow: {
@@ -646,7 +647,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   transferPocketText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -655,13 +656,13 @@ const styles = StyleSheet.create({
   },
   transferArrowText: {
     fontSize: 24,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: 'bold',
   },
   transferAmountDisplay: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   actionButtons: {
     flexDirection: 'row',
@@ -670,7 +671,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -685,13 +686,13 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   pocketsContainer: {
     paddingHorizontal: 15,
   },
   pocketCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     marginBottom: 15,
     overflow: 'hidden',
@@ -719,12 +720,12 @@ const styles = StyleSheet.create({
   pocketName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   pocketDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   pocketHeaderRight: {
     alignItems: 'flex-end',
@@ -732,12 +733,12 @@ const styles = StyleSheet.create({
   pocketAmount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   expandIcon: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   progressContainer: {
     paddingHorizontal: 15,
@@ -745,7 +746,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 6,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 3,
     marginBottom: 8,
   },
@@ -755,11 +756,11 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   expandedContent: {
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
     padding: 15,
   },
   quickActions: {
@@ -777,7 +778,7 @@ const styles = StyleSheet.create({
   },
   quickActionText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   recentTransactions: {
     marginTop: 10,
@@ -785,7 +786,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   transactionItem: {
@@ -794,7 +795,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   transactionLeft: {
     flex: 1,
@@ -802,11 +803,11 @@ const styles = StyleSheet.create({
   transactionTitle: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
   },
   transactionDate: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   transactionAmount: {
     fontSize: 14,
@@ -814,7 +815,7 @@ const styles = StyleSheet.create({
   },
   noTransactions: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontStyle: 'italic',
     textAlign: 'center',
     paddingVertical: 20,
@@ -826,7 +827,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     width: '90%',
@@ -834,19 +835,19 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
     textAlign: 'center',
   },
   modalSubtitle: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 20,
     textAlign: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -860,12 +861,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     alignItems: 'center',
     marginRight: 10,
   },
   cancelButtonText: {
-    color: '#666',
+    color: Colors.light.mutedText,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -873,23 +874,23 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     alignItems: 'center',
     marginLeft: 10,
   },
   confirmButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
   closeButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
   },
   closeButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

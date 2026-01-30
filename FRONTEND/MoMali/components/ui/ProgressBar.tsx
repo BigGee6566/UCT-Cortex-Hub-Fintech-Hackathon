@@ -1,4 +1,5 @@
 import { View, StyleSheet } from 'react-native';
+
 import { Colors, Radii } from '@/constants/theme';
 
 export function ProgressBar({ value }: { value: number }) {

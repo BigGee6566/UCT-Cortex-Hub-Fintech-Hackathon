@@ -10,6 +10,7 @@ import {
   Modal,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const TransactionDetailScreen = ({ route, navigation }) => {
   const { transaction } = route?.params || {
@@ -107,7 +108,7 @@ const TransactionDetailScreen = ({ route, navigation }) => {
           
           <Text style={[
             styles.amount,
-            { color: transaction.amount >= 0 ? '#4CAF50' : '#333' }
+            { color: transaction.amount >= 0 ? Colors.light.primary : Colors.light.text }
           ]}>
             {transaction.amount >= 0 ? '+' : ''}R{Math.abs(transaction.amount).toFixed(2)}
           </Text>
@@ -135,7 +136,7 @@ const TransactionDetailScreen = ({ route, navigation }) => {
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Pocket</Text>
             <View style={styles.pocketIndicator}>
-              <View style={[styles.pocketDot, { backgroundColor: '#4CAF50' }]} />
+              <View style={[styles.pocketDot, { backgroundColor: Colors.light.primary }]} />
               <Text style={styles.detailValue}>{transaction.pocket}</Text>
             </View>
           </View>
@@ -280,30 +281,30 @@ const TransactionDetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 50,
   },
   mainSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     alignItems: 'center',
     padding: 30,
     marginBottom: 20,
@@ -312,7 +313,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
   merchantName: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   amount: {
@@ -331,7 +332,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   detailsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     marginBottom: 20,
   },
@@ -341,16 +342,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   detailLabel: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   detailValue: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
     fontWeight: '600',
   },
   categoryContainer: {
@@ -372,19 +373,19 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   section: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   noteInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -392,18 +393,18 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   saveButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
   },
   saveButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
   actionsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
   },
   actionButton: {
@@ -411,7 +412,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
     fontWeight: '500',
   },
   reportButton: {
@@ -433,7 +434,7 @@ const styles = StyleSheet.create({
   },
   reportButtonText: {
     fontSize: 16,
-    color: '#FF5722',
+    color: Colors.light.error,
     fontWeight: '500',
   },
   modalOverlay: {
@@ -443,7 +444,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     width: '90%',
@@ -452,13 +453,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 20,
     textAlign: 'center',
   },
   modalSubtitle: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -467,7 +468,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   categoryOptionIcon: {
     fontSize: 20,
@@ -475,12 +476,12 @@ const styles = StyleSheet.create({
   },
   categoryOptionText: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
     flex: 1,
   },
   checkmark: {
     fontSize: 16,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     fontWeight: 'bold',
   },
   splitRow: {
@@ -490,12 +491,12 @@ const styles = StyleSheet.create({
   },
   pocketName: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
     flex: 1,
   },
   splitInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 6,
     padding: 8,
     width: 100,
@@ -510,12 +511,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     alignItems: 'center',
     marginRight: 10,
   },
   cancelButtonText: {
-    color: '#666',
+    color: Colors.light.mutedText,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -523,12 +524,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     alignItems: 'center',
     marginLeft: 10,
   },
   confirmButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

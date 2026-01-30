@@ -9,6 +9,7 @@ import {
   Alert,
   RefreshControl
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const OpenFinanceManagerScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -70,10 +71,10 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'connected': return '#4CAF50';
-      case 'error': return '#FF5722';
-      case 'syncing': return '#FF9800';
-      default: return '#666';
+      case 'connected': return Colors.light.primary;
+      case 'error': return Colors.light.error;
+      case 'syncing': return Colors.light.secondary;
+      default: return Colors.light.mutedText;
     }
   };
 
@@ -164,7 +165,7 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
           <View style={styles.permissionLeft}>
             <View style={[
               styles.permissionDot,
-              { backgroundColor: permission.granted ? '#4CAF50' : '#ddd' }
+              { backgroundColor: permission.granted ? Colors.light.primary : Colors.light.border }
             ]} />
             <Text style={styles.permissionName}>{permission.name}</Text>
           </View>
@@ -176,7 +177,7 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
             )}
             <Text style={[
               styles.permissionStatus,
-              { color: permission.granted ? '#4CAF50' : '#666' }
+              { color: permission.granted ? Colors.light.primary : Colors.light.mutedText }
             ]}>
               {permission.granted ? 'Granted' : 'Not Granted'}
             </Text>
@@ -277,7 +278,7 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
             <View style={styles.statItem}>
               <Text style={[
                 styles.statValue, 
-                { color: '#4CAF50' }
+                { color: Colors.light.primary }
               ]}>
                 {connectedAccounts.filter(acc => acc.status === 'connected').length}
               </Text>
@@ -286,7 +287,7 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
             <View style={styles.statItem}>
               <Text style={[
                 styles.statValue, 
-                { color: '#FF5722' }
+                { color: Colors.light.error }
               ]}>
                 {connectedAccounts.filter(acc => acc.status === 'error').length}
               </Text>
@@ -344,30 +345,30 @@ const OpenFinanceManagerScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   backButton: {
     fontSize: 16,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 50,
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -375,7 +376,7 @@ const styles = StyleSheet.create({
   overviewTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   overviewStats: {
@@ -388,12 +389,12 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   accountsSection: {
     paddingHorizontal: 15,
@@ -407,21 +408,21 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   addAccountButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 15,
   },
   addAccountText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 12,
     fontWeight: '600',
   },
   accountCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     marginBottom: 15,
     overflow: 'hidden',
@@ -447,17 +448,17 @@ const styles = StyleSheet.create({
   accountBank: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   accountType: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginBottom: 4,
   },
   lastSynced: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.light.mutedText,
   },
   accountRight: {
     alignItems: 'flex-end',
@@ -469,17 +470,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   statusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
   expandIcon: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   accountDetails: {
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
     padding: 15,
   },
   accountActions: {
@@ -494,30 +495,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   refreshButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
   },
   refreshButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   revokeButton: {
-    backgroundColor: '#FF5722',
+    backgroundColor: Colors.light.error,
   },
   revokeButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   permissionsContainer: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.light.surfaceAlt,
     padding: 15,
     borderRadius: 8,
   },
   permissionsTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   permissionItem: {
@@ -539,7 +540,7 @@ const styles = StyleSheet.create({
   },
   permissionName: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
   },
   permissionBadges: {
     flexDirection: 'row',
@@ -547,13 +548,13 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   requiredBadge: {
-    backgroundColor: '#FF9800',
+    backgroundColor: Colors.light.secondary,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
   },
   requiredBadgeText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 8,
     fontWeight: '600',
   },
@@ -562,7 +563,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   emptyState: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 40,
     borderRadius: 12,
     alignItems: 'center',
@@ -574,24 +575,24 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 10,
   },
   emptyDescription: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
     lineHeight: 20,
     marginBottom: 20,
   },
   connectButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 25,
   },
   connectButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },

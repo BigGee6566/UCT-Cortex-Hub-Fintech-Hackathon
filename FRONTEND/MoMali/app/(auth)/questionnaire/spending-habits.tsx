@@ -5,6 +5,7 @@ import type { QuestionnaireAnswers } from '@/types/questionnaire';
 import { getQuestionnaire, saveQuestionnaire } from '@/services/questionnaire.service';
 import { Colors, Radii, Spacing, Typography } from '@/constants/theme';
 
+
 type Cat = keyof QuestionnaireAnswers['step3']['spendCategories'];
 
 export default function SpendingHabitsScreen() {
@@ -70,7 +71,7 @@ export default function SpendingHabitsScreen() {
                   style={styles.moneyInput}
                   keyboardType="numeric"
                   value={String(data.step3.spendCategories[c].budget)}
-                  onChangeText={(t) => {
+                  onChangeText={(t: string) => {
                     const n = Number(t.replace(/[^\d]/g, ''));
                     setBudget(c, Number.isFinite(n) ? n : 0);
                   }}
@@ -190,26 +191,25 @@ const styles = StyleSheet.create({
 
   btn: {
     flex: 1,
-    backgroundColor: '#0E1A33',
+    backgroundColor: Colors.light.primary,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnText: { color: '#FFFFFF', fontWeight: '800' },
+  btnText: { color: Colors.light.onAccent, fontWeight: '800' },
   btnGhost: {
     flex: 1,
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#1B2A4A',
+    borderColor: Colors.light.card,
     paddingVertical: Spacing.sm,
     borderRadius: Radii.button,
     alignItems: 'center',
     minHeight: 44,
     justifyContent: 'center',
   },
-  btnGhostText: { color: '#0E1A33', fontWeight: '800' },
+  btnGhostText: { color: Colors.light.primary, fontWeight: '800' },
 });
-
 

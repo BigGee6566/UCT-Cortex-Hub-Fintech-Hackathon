@@ -1,17 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Colors } from '@/constants/theme';
 
 const RecentActivity = ({ transactions }) => {
+  const router = useRouter();
   const getCategoryIcon = (category) => {
     const icons = {
-      'Food': '🍽️',
-      'Income': '💰',
-      'Entertainment': '🎬',
-      'Transport': '🚗',
-      'Bills': '💳',
-      'Shopping': '🛍️'
+      Food: { name: 'restaurant', color: Colors.light.primary },
+      Income: { name: 'payments', color: Colors.light.primary },
+      Entertainment: { name: 'movie', color: Colors.light.secondary },
+      Transport: { name: 'local-gas-station', color: Colors.light.secondary },
+      Bills: { name: 'credit-card', color: Colors.light.secondary },
+      Shopping: { name: 'shopping-bag', color: Colors.light.error }
     };
-    return icons[category] || '💸';
+    return icons[category] || { name: 'attach-money', color: Colors.light.mutedText };
   };
 
   const formatAmount = (amount) => {
@@ -22,12 +26,18 @@ const RecentActivity = ({ transactions }) => {
   return (
     <View style={styles.container}>
       {transactions.map(transaction => (
-        <TouchableOpacity key={transaction.id} style={styles.transactionItem}>
+        <TouchableOpacity
+          key={transaction.id}
+          style={styles.transactionItem}
+          onPress={() => router.push('/transaction-detail')}
+        >
           <View style={styles.leftSection}>
             <View style={styles.iconContainer}>
-              <Text style={styles.categoryIcon}>
-                {getCategoryIcon(transaction.category)}
-              </Text>
+              <MaterialIcons
+                name={getCategoryIcon(transaction.category).name}
+                size={20}
+                color={getCategoryIcon(transaction.category).color}
+              />
             </View>
             <View style={styles.details}>
               <Text style={styles.title}>{transaction.title}</Text>
@@ -38,7 +48,7 @@ const RecentActivity = ({ transactions }) => {
           <View style={styles.rightSection}>
             <Text style={[
               styles.amount,
-              { color: transaction.amount >= 0 ? '#4CAF50' : '#333' }
+              { color: transaction.amount >= 0 ? Colors.light.primary : Colors.light.text }
             ]}>
               {formatAmount(transaction.amount)}
             </Text>
@@ -47,7 +57,7 @@ const RecentActivity = ({ transactions }) => {
         </TouchableOpacity>
       ))}
       
-      <TouchableOpacity style={styles.viewAllButton}>
+      <TouchableOpacity style={styles.viewAllButton} onPress={() => router.push('/(tabs)/transactions')}>
         <Text style={styles.viewAllText}>View All Transactions</Text>
       </TouchableOpacity>
     </View>
@@ -56,7 +66,7 @@ const RecentActivity = ({ transactions }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 15,
   },
@@ -66,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   leftSection: {
     flexDirection: 'row',
@@ -77,7 +87,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.surfaceAlt,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -91,12 +101,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   time: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   rightSection: {
     alignItems: 'flex-end',
@@ -108,18 +118,18 @@ const styles = StyleSheet.create({
   },
   category: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   viewAllButton: {
     marginTop: 15,
     paddingVertical: 12,
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
   },
   viewAllText: {
     fontSize: 14,
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
 });

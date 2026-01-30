@@ -19,5 +19,5 @@ const styles = StyleSheet.create({
   },
   active: { backgroundColor: Colors.light.primary, borderColor: Colors.light.primary },
   text: { color: Colors.light.text, fontWeight: '600' },
-  textActive: { color: Colors.light.card },
+  textActive: { color: Colors.light.onAccent },
 });

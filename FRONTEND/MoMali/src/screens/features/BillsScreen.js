@@ -11,6 +11,7 @@ import {
   TextInput,
   Alert
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const BillsScreen = () => {
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'calendar'
@@ -98,11 +99,11 @@ const BillsScreen = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'paid': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'overdue': return '#FF5722';
-      case 'upcoming': return '#2196F3';
-      default: return '#666';
+      case 'paid': return Colors.light.primary;
+      case 'pending': return Colors.light.secondary;
+      case 'overdue': return Colors.light.error;
+      case 'upcoming': return Colors.light.primary;
+      default: return Colors.light.mutedText;
     }
   };
 
@@ -235,8 +236,8 @@ const BillsScreen = () => {
               <Switch
                 value={bill.autoPay}
                 onValueChange={() => toggleAutoPay(bill.id)}
-                trackColor={{ false: '#ddd', true: '#4CAF50' }}
-                thumbColor={bill.autoPay ? '#fff' : '#f4f3f4'}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
+                thumbColor={bill.autoPay ? Colors.light.card : '#f4f3f4'}
               />
             </View>
             
@@ -291,15 +292,15 @@ const BillsScreen = () => {
               <Text style={styles.statLabel}>Total Bills</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#4CAF50' }]}>{paidBills}</Text>
+              <Text style={[styles.statValue, { color: Colors.light.primary }]}>{paidBills}</Text>
               <Text style={styles.statLabel}>Paid</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#FF9800' }]}>{pendingBills}</Text>
+              <Text style={[styles.statValue, { color: Colors.light.secondary }]}>{pendingBills}</Text>
               <Text style={styles.statLabel}>Pending</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#FF5722' }]}>{overdueBills}</Text>
+              <Text style={[styles.statValue, { color: Colors.light.error }]}>{overdueBills}</Text>
               <Text style={styles.statLabel}>Overdue</Text>
             </View>
           </View>
@@ -318,7 +319,7 @@ const BillsScreen = () => {
           </View>
           <View style={styles.insightRow}>
             <Text style={styles.insightLabel}>Potential Savings:</Text>
-            <Text style={[styles.insightValue, { color: '#4CAF50' }]}>
+            <Text style={[styles.insightValue, { color: Colors.light.primary }]}>
               R{subscriptionInsights.potentialSavings.toFixed(2)}
             </Text>
           </View>
@@ -401,23 +402,23 @@ const BillsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   viewToggle: {
     flexDirection: 'row',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     borderRadius: 8,
     padding: 2,
   },
@@ -429,18 +430,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeToggle: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
   },
   toggleText: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '500',
   },
   activeToggleText: {
-    color: '#fff',
+    color: Colors.light.text,
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -448,7 +449,7 @@ const styles = StyleSheet.create({
   overviewTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   overviewStats: {
@@ -461,25 +462,25 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   insightsCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: Colors.light.primary,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   insightRow: {
@@ -490,15 +491,15 @@ const styles = StyleSheet.create({
   },
   insightLabel: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   insightValue: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   timeline: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -508,7 +509,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   timelineDate: {
     width: 60,
@@ -517,7 +518,7 @@ const styles = StyleSheet.create({
   timelineDays: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   timelineContent: {
     flex: 1,
@@ -526,11 +527,11 @@ const styles = StyleSheet.create({
   timelineBill: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
   },
   timelineAmount: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   timelineStatus: {
     width: 8,
@@ -538,7 +539,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   addBillButton: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     margin: 15,
     padding: 20,
     borderRadius: 12,
@@ -546,7 +547,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#2196F3',
+    borderColor: Colors.light.primary,
     borderStyle: 'dashed',
   },
   addBillIcon: {
@@ -556,14 +557,14 @@ const styles = StyleSheet.create({
   addBillText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   billsContainer: {
     paddingHorizontal: 15,
     paddingBottom: 20,
   },
   billCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     marginBottom: 10,
     overflow: 'hidden',
@@ -589,12 +590,12 @@ const styles = StyleSheet.create({
   billName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   billProvider: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   billHeaderRight: {
     alignItems: 'flex-end',
@@ -602,7 +603,7 @@ const styles = StyleSheet.create({
   billAmount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 4,
   },
   statusIndicator: {
@@ -612,18 +613,18 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   statusText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
   expandIcon: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   billDetails: {
     padding: 15,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: Colors.light.border,
   },
   detailRow: {
     flexDirection: 'row',
@@ -633,12 +634,12 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   detailValue: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
   },
   billActions: {
     flexDirection: 'row',
@@ -646,7 +647,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -655,15 +656,15 @@ const styles = StyleSheet.create({
   secondaryButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#2196F3',
+    borderColor: Colors.light.primary,
   },
   actionButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 14,
     fontWeight: '600',
   },
   secondaryButtonText: {
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   modalOverlay: {
     flex: 1,
@@ -672,7 +673,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     width: '90%',
@@ -680,13 +681,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 20,
     textAlign: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -700,12 +701,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: Colors.light.border,
     alignItems: 'center',
     marginRight: 10,
   },
   cancelButtonText: {
-    color: '#666',
+    color: Colors.light.mutedText,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -713,12 +714,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.light.primary,
     alignItems: 'center',
     marginLeft: 10,
   },
   confirmButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },

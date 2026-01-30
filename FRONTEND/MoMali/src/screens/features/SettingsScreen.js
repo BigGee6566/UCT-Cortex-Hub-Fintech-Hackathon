@@ -10,6 +10,7 @@ import {
   Alert,
   Modal
 } from 'react-native';
+import { Colors } from '@/constants/theme';
 
 const SettingsScreen = ({ navigation }) => {
   const [settings, setSettings] = useState({
@@ -138,7 +139,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={settings.notifications}
                 onValueChange={() => toggleSetting('notifications')}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -150,7 +151,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={settings.biometric}
                 onValueChange={() => toggleSetting('biometric')}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -162,7 +163,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={settings.autoSync}
                 onValueChange={() => toggleSetting('autoSync')}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -196,7 +197,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={settings.darkTheme}
                 onValueChange={() => toggleSetting('darkTheme')}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -219,7 +220,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={true}
                 onValueChange={() => {}}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -242,7 +243,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch
                 value={false}
                 onValueChange={() => {}}
-                trackColor={{ false: '#E0E0E0', true: '#2196F3' }}
+                trackColor={{ false: Colors.light.border, true: Colors.light.primary }}
               />
             }
           />
@@ -274,7 +275,7 @@ const SettingsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   darkContainer: {
     backgroundColor: '#121212',
@@ -283,26 +284,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   darkHeader: {
     backgroundColor: '#1E1E1E',
-    borderBottomColor: '#333',
+    borderBottomColor: Colors.light.text,
   },
   backButton: {
     fontSize: 24,
-    color: '#2196F3',
+    color: Colors.light.primary,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
   },
   darkText: {
-    color: '#fff',
+    color: Colors.light.text,
   },
   placeholder: {
     width: 24,
@@ -314,13 +315,13 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 20,
     marginBottom: 10,
     marginLeft: 5,
   },
   section: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     marginBottom: 10,
   },
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   settingLeft: {
     flexDirection: 'row',
@@ -350,20 +351,20 @@ const styles = StyleSheet.create({
   settingTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: Colors.light.text,
   },
   settingSubtitle: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     marginTop: 2,
   },
   arrow: {
     fontSize: 18,
-    color: '#ccc',
+    color: Colors.light.border,
   },
   clearText: {
     fontSize: 14,
-    color: '#FF5722',
+    color: Colors.light.error,
     fontWeight: '600',
   },
   modalOverlay: {
@@ -373,7 +374,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     padding: 20,
     width: '80%',
@@ -382,24 +383,24 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
     textAlign: 'center',
   },
   modalItem: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   selectedModalItem: {
     backgroundColor: '#E3F2FD',
   },
   modalItemText: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.light.text,
   },
   selectedModalItemText: {
-    color: '#2196F3',
+    color: Colors.light.primary,
     fontWeight: '600',
   },
   modalCancel: {
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
   },
   modalCancelText: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     fontWeight: '600',
   },
 });

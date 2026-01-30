@@ -8,10 +8,21 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Colors } from '@/constants/theme';
 
-const BankConnectionScreen = ({ navigation }) => {
+const BankConnectionScreen = ({ navigation } = {}) => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState('intro'); // intro, banks, permissions, connecting, success
   const [selectedBank, setSelectedBank] = useState(null);
+
+  const goBack = () => {
+    if (navigation?.goBack) {
+      navigation.goBack();
+      return;
+    }
+    router.back();
+  };
 
   const banks = [
     { id: 1, name: 'Standard Bank', logo: '🏦', color: '#0066CC', popular: true },
@@ -50,7 +61,7 @@ const BankConnectionScreen = ({ navigation }) => {
       'Connect Later',
       'You can always connect your bank account later from the Profile settings.',
       [
-        { text: 'OK', onPress: () => navigation?.goBack() }
+        { text: 'OK', onPress: goBack }
       ]
     );
   };
@@ -112,7 +123,7 @@ const BankConnectionScreen = ({ navigation }) => {
             key={bank.id}
             style={[
               styles.bankCard,
-              { borderColor: selectedBank?.id === bank.id ? bank.color : '#ddd' }
+              { borderColor: selectedBank?.id === bank.id ? bank.color : Colors.light.border }
             ]}
             onPress={() => handleBankSelect(bank)}
           >
@@ -130,7 +141,7 @@ const BankConnectionScreen = ({ navigation }) => {
             key={bank.id}
             style={[
               styles.bankCard,
-              { borderColor: selectedBank?.id === bank.id ? bank.color : '#ddd' }
+              { borderColor: selectedBank?.id === bank.id ? bank.color : Colors.light.border }
             ]}
             onPress={() => handleBankSelect(bank)}
           >
@@ -178,7 +189,7 @@ const BankConnectionScreen = ({ navigation }) => {
             <View style={styles.permissionRight}>
               <View style={[
                 styles.permissionBadge,
-                { backgroundColor: permission.required ? '#4CAF50' : '#FF9800' }
+                { backgroundColor: permission.required ? Colors.light.primary : Colors.light.secondary }
               ]}>
                 <Text style={styles.permissionBadgeText}>
                   {permission.required ? 'Required' : 'Optional'}
@@ -258,7 +269,7 @@ const BankConnectionScreen = ({ navigation }) => {
 
         <TouchableOpacity 
           style={styles.primaryButton}
-          onPress={() => navigation?.goBack()}
+          onPress={goBack}
         >
           <Text style={styles.primaryButtonText}>Continue to Dashboard</Text>
         </TouchableOpacity>
@@ -307,26 +318,26 @@ const getStepNumber = (step) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
   },
   progressContainer: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
   },
   progressBar: {
     height: 4,
-    backgroundColor: '#ddd',
+    backgroundColor: Colors.light.border,
     borderRadius: 2,
     marginBottom: 8,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     borderRadius: 2,
   },
   progressText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
   },
   stepContainer: {
@@ -346,19 +357,19 @@ const styles = StyleSheet.create({
   stepTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
     textAlign: 'center',
     marginBottom: 15,
   },
   stepDescription: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
     lineHeight: 24,
     marginBottom: 30,
   },
   securitySection: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderRadius: 12,
     marginBottom: 30,
@@ -366,7 +377,7 @@ const styles = StyleSheet.create({
   securityTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
   },
   securityPoints: {
@@ -374,13 +385,13 @@ const styles = StyleSheet.create({
   },
   securityPoint: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     lineHeight: 20,
   },
   sectionLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 15,
     marginTop: 20,
   },
@@ -392,7 +403,7 @@ const styles = StyleSheet.create({
   },
   bankCard: {
     width: '48%',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderRadius: 12,
     alignItems: 'center',
@@ -406,11 +417,11 @@ const styles = StyleSheet.create({
   bankName: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     textAlign: 'center',
   },
   permissionsContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     borderRadius: 12,
     marginBottom: 20,
   },
@@ -420,7 +431,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.light.border,
   },
   permissionLeft: {
     flexDirection: 'row',
@@ -437,12 +448,12 @@ const styles = StyleSheet.create({
   permissionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.light.text,
     marginBottom: 2,
   },
   permissionDescription: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.light.mutedText,
   },
   permissionRight: {
     marginLeft: 10,
@@ -453,7 +464,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   permissionBadgeText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 10,
     fontWeight: '600',
   },
@@ -488,7 +499,7 @@ const styles = StyleSheet.create({
   },
   loadingStep: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.light.mutedText,
     textAlign: 'center',
   },
   successContainer: {
@@ -500,7 +511,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   successDetails: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.card,
     padding: 20,
     borderRadius: 12,
     marginBottom: 30,
@@ -513,24 +524,24 @@ const styles = StyleSheet.create({
   },
   successItemIcon: {
     fontSize: 16,
-    color: '#4CAF50',
+    color: Colors.light.primary,
     marginRight: 10,
   },
   successItemText: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.light.text,
   },
   stepButtons: {
     gap: 15,
   },
   primaryButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 15,
     borderRadius: 12,
     alignItems: 'center',
   },
   primaryButtonText: {
-    color: '#fff',
+    color: Colors.light.text,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -540,10 +551,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.light.border,
   },
   secondaryButtonText: {
-    color: '#666',
+    color: Colors.light.mutedText,
     fontSize: 16,
     fontWeight: '600',
   },
