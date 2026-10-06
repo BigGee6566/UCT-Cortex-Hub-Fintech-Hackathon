@@ -7,7 +7,11 @@ export default function Onboarding() {
       <Text style={styles.title}>Mo’Mali</Text>
       <Text style={styles.subtitle}>Your money. Your control.</Text>
 
-      <Pressable style={styles.button} onPress={() => router.push('/(auth)/login')}>
+      <Pressable
+        style={styles.button}
+        accessibilityRole="button"
+        // Onboarding is opened from the login screen, so go back to it rather than stacking a second login.
+        onPress={() => (router.canGoBack() ? router.back() : router.replace('/(auth)/login'))}>
         <Text style={styles.buttonText}>Get Started</Text>
       </Pressable>
     </View>

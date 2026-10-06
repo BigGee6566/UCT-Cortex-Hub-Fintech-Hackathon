@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
+import { useSession } from '@/hooks/use-session';
 import { clearAppData } from '@/services/storage';
 
 export default function Profile() {
+  const { session, signOut } = useSession();
   const [confirmingReset, setConfirmingReset] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -12,11 +13,9 @@ export default function Profile() {
     setResetting(true);
     try {
       await clearAppData();
-      setMessage('All Mo’Mali data on this device was deleted.');
-      setConfirmingReset(false);
+      await signOut(); // the session was deleted too; the route guard returns to login
     } catch {
       setMessage('We couldn’t reset your data. Please try again.');
-    } finally {
       setResetting(false);
     }
   }
@@ -24,8 +23,9 @@ export default function Profile() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
+      {session ? <Text style={styles.subtitle}>Signed in as {session.userId}</Text> : null}
 
-      <Pressable style={styles.button} accessibilityRole="button" onPress={() => router.replace('/(auth)/login')}>
+      <Pressable style={styles.button} accessibilityRole="button" onPress={signOut}>
         <Text style={styles.buttonText}>Log out</Text>
       </Pressable>
 
@@ -33,7 +33,8 @@ export default function Profile() {
         {confirmingReset ? (
           <>
             <Text style={styles.warning}>
-              This deletes your budgets and consent choices on this device. It can’t be undone.
+              This deletes your budgets and consent choices on this device and signs you out. It
+              can’t be undone.
             </Text>
             <View style={styles.actions}>
               <Pressable
@@ -77,6 +78,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
   title: { fontSize: 26, fontWeight: '800' },
+  subtitle: { marginTop: 8, opacity: 0.7 },
   button: { marginTop: 24, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 12, backgroundColor: '#111' },
   buttonText: { color: '#fff', fontWeight: '700' },
   dangerZone: { marginTop: 32, alignItems: 'center', gap: 12, maxWidth: 360 },
