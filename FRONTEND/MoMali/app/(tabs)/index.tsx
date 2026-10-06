@@ -2,16 +2,17 @@ import { useCallback, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
-import { getConsent } from '@/services/consent.service';
+import { getConsent, grantedScopes, type GatedResult } from '@/services/consent.service';
 import { getBudgets } from '@/services/budget.service';
-import { MOCK_TRANSACTIONS } from '@/services/mockFinance';
 import { computeHealthScore } from '@/services/score.service';
-import type { ConsentState } from '@/types/consent';
-import type { Category } from '@/types/finance';
+import { getTransactions } from '@/services/transactions.service';
+import { SCOPE_LABELS, type ConsentState } from '@/types/consent';
+import type { Budgets, Transaction } from '@/types/finance';
 
 export default function Dashboard() {
   const [consent, setConsent] = useState<ConsentState | null>(null);
-  const [budgets, setBudgets] = useState<Record<Category, number> | null>(null);
+  const [budgets, setBudgets] = useState<Budgets | null>(null);
+  const [transactions, setTransactions] = useState<GatedResult<Transaction[]> | null>(null);
   const [loadError, setLoadError] = useState(false);
 
   // Refresh when the Dashboard comes into focus (first open, closing the consent
@@ -20,11 +21,12 @@ export default function Dashboard() {
     useCallback(() => {
       let active = true; // drop results that arrive after the screen loses focus
 
-      Promise.all([getConsent(), getBudgets()])
-        .then(([nextConsent, nextBudgets]) => {
+      Promise.all([getConsent(), getBudgets(), getTransactions()])
+        .then(([nextConsent, nextBudgets, nextTransactions]) => {
           if (!active) return;
           setConsent(nextConsent);
           setBudgets(nextBudgets);
+          setTransactions(nextTransactions);
           setLoadError(false);
         })
         .catch(() => {
@@ -37,13 +39,15 @@ export default function Dashboard() {
     }, [])
   );
 
+  // The score is computed from transaction history, so it needs transactions:read.
   const health = useMemo(() => {
-    if (!budgets) return null;
-    return computeHealthScore(MOCK_TRANSACTIONS, budgets);
-  }, [budgets]);
+    if (!budgets || transactions?.status !== 'ok') return null;
+    return computeHealthScore(transactions.data, budgets);
+  }, [budgets, transactions]);
 
-  const consentLabel =
-    consent?.accepted ? 'Consent: Active' : 'Consent: Not connected';
+  const shared = consent ? grantedScopes(consent).map((s) => SCOPE_LABELS[s]) : [];
+  const consentActive = shared.length > 0;
+  const consentLabel = consentActive ? 'Consent: Active' : 'Consent: Not connected';
 
   return (
     <View style={styles.container}>
@@ -58,29 +62,38 @@ export default function Dashboard() {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>{consentLabel}</Text>
         <Text style={styles.cardSub}>
-          {consent?.accepted
-            ? 'We are using your selected permissions.'
+          {consentActive
+            ? `Sharing: ${shared.join(', ')}. You can change or revoke this anytime.`
             : 'Connect to unlock smarter insights (mock for now).'}
         </Text>
 
-        <Pressable style={styles.btn} onPress={() => router.push('/modal')}>
-          <Text style={styles.btnText}>
-            {consent?.accepted ? 'Manage Consent' : 'Connect (Consent)'}
-          </Text>
+        <Pressable style={styles.btn} accessibilityRole="button" onPress={() => router.push('/modal')}>
+          <Text style={styles.btnText}>{consentActive ? 'Manage Consent' : 'Connect (Consent)'}</Text>
         </Pressable>
       </View>
 
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Financial Health Score</Text>
-        <Text style={styles.score}>{health ? health.score : '...'}/100</Text>
 
-        {health && (
+        {transactions?.status === 'consent-required' ? (
           <Text style={styles.cardSub}>
-            Budget: {(health.budgetUtilisation * 100).toFixed(0)}% • Savings: {(health.savingsRate * 100).toFixed(0)}%
+            Allow Transactions access to see your score. It is calculated from your spending.
           </Text>
+        ) : (
+          <>
+            <Text style={styles.score}>{health ? health.score : '...'}/100</Text>
+            {health && (
+              <Text style={styles.cardSub}>
+                Budget: {(health.budgetUtilisation * 100).toFixed(0)}% • Savings: {(health.savingsRate * 100).toFixed(0)}%
+              </Text>
+            )}
+          </>
         )}
 
-        <Pressable style={[styles.btn, styles.btnGhost]} onPress={() => router.navigate('/(tabs)/budgets')}>
+        <Pressable
+          style={[styles.btn, styles.btnGhost]}
+          accessibilityRole="button"
+          onPress={() => router.navigate('/(tabs)/budgets')}>
           <Text style={[styles.btnText, styles.btnTextDark]}>Edit Budgets</Text>
         </Pressable>
       </View>

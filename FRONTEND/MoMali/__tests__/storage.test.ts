@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { decodeBudgets, getBudgets } from '@/services/budget.service';
-import { decodeConsent, getConsent } from '@/services/consent.service';
+import { decodeConsent, emptyConsent, getConsent } from '@/services/consent.service';
 import { DEFAULT_BUDGETS } from '@/services/mockFinance';
 import { clearAppData, getData, isPlainObject } from '@/services/storage';
 
@@ -94,32 +94,16 @@ describe('decodeBudgets', () => {
   });
 });
 
-describe('decodeConsent', () => {
-  it('accepts the stored shape', () => {
-    const stored = {
-      accepted: true,
-      acceptedAt: '2026-10-06T10:00:00.000Z',
-      scopes: { balances: true, transactions: true, income: false, debitOrders: false },
-    };
-    expect(decodeConsent(stored)).toEqual(stored);
-  });
-
-  it('treats missing or non-true scope flags as not granted', () => {
-    expect(decodeConsent({ accepted: true, scopes: { balances: 'yes' } })?.scopes).toEqual({
-      balances: false,
-      transactions: false,
-      income: false,
-      debitOrders: false,
-    });
-  });
-
-  it('rejects values without a boolean "accepted"', () => {
+describe('decodeConsent (storage safety)', () => {
+  it('rejects values that are neither version 2 nor version 1 consent', () => {
     expect(decodeConsent({ scopes: {} })).toBeNull();
     expect(decodeConsent('accepted')).toBeNull();
+    expect(decodeConsent(null)).toBeNull();
   });
 
-  it('is used by getConsent so corrupt storage means "not connected"', async () => {
+  it('is used by getConsent so corrupt storage means nothing is granted', async () => {
     await AsyncStorage.setItem('momali.consent', '"oops"');
-    expect(await getConsent()).toBeNull();
+    expect(await getConsent()).toEqual(emptyConsent());
+    expect(await AsyncStorage.getItem('momali.consent')).toBeNull();
   });
 });

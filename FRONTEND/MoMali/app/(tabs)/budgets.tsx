@@ -3,21 +3,25 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { buildBudgetRows, getBudgets, type BudgetCategory } from '@/services/budget.service';
-import { MOCK_TRANSACTIONS } from '@/services/mockFinance';
+import { getTransactions } from '@/services/transactions.service';
 
 export default function BudgetsScreen() {
   const [rows, setRows] = useState<BudgetCategory[] | null>(null);
+  const [spendingVisible, setSpendingVisible] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Reload each time the tab gains focus, e.g. after saving in the editor.
+  // Reload each time the tab gains focus, e.g. after saving in the editor or changing consent.
   useFocusEffect(
     useCallback(() => {
       let active = true; // drop results that arrive after the screen loses focus
 
-      getBudgets()
-        .then((budgets) => {
+      Promise.all([getBudgets(), getTransactions()])
+        .then(([budgets, transactions]) => {
           if (!active) return;
-          setRows(buildBudgetRows(budgets, MOCK_TRANSACTIONS));
+          // Limits are the user's own data; spending needs transactions:read.
+          const visible = transactions.status === 'ok';
+          setRows(buildBudgetRows(budgets, visible ? transactions.data : []));
+          setSpendingVisible(visible);
           setError(null);
         })
         .catch(() => {
@@ -44,12 +48,24 @@ export default function BudgetsScreen() {
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      {totals ? (
+      {totals && spendingVisible ? (
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Total spent</Text>
           <Text style={styles.cardSub}>
             R {totals.spent.toFixed(0)} of R {totals.limit.toFixed(0)} budgeted
           </Text>
+        </View>
+      ) : null}
+
+      {totals && !spendingVisible ? (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Spending is hidden</Text>
+          <Text style={styles.cardSub}>
+            Transactions access is off, so only your limits are shown (R {totals.limit.toFixed(0)} budgeted).
+          </Text>
+          <Pressable style={[styles.btn, styles.btnGhost]} accessibilityRole="button" onPress={() => router.push('/modal')}>
+            <Text style={styles.btnTextDark}>Allow access</Text>
+          </Pressable>
         </View>
       ) : null}
 
@@ -64,14 +80,26 @@ export default function BudgetsScreen() {
         data={rows ?? []}
         keyExtractor={(row) => row.category}
         contentContainerStyle={{ paddingBottom: 18 }}
-        renderItem={({ item }) => <BudgetRow row={item} />}
+        renderItem={({ item }) => <BudgetRow row={item} spendingVisible={spendingVisible} />}
         ListEmptyComponent={error ? null : <Text style={styles.cardSub}>Loading budgets…</Text>}
       />
     </View>
   );
 }
 
-function BudgetRow({ row }: { row: BudgetCategory }) {
+function BudgetRow({ row, spendingVisible }: { row: BudgetCategory; spendingVisible: boolean }) {
+  if (!spendingVisible) {
+    return (
+      <View style={styles.row} accessible accessibilityLabel={`${row.category}: limit R ${row.limit.toFixed(0)}. Spending hidden.`}>
+        <View style={styles.rowHeader}>
+          <Text style={styles.rowTitle}>{row.category}</Text>
+          <Text style={styles.rowAmount}>Limit R {row.limit.toFixed(0)}</Text>
+        </View>
+        <Text style={styles.rowMeta}>Spending hidden</Text>
+      </View>
+    );
+  }
+
   const pct = row.percentUsed;
   const over = pct !== null && pct > 1;
   const pctText = pct === null ? 'No limit set' : `${Math.round(pct * 100)}% used`;
@@ -110,7 +138,9 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 16, fontWeight: '900' },
   cardSub: { opacity: 0.75, lineHeight: 20 },
   btn: { backgroundColor: '#111', paddingVertical: 12, borderRadius: 12, alignItems: 'center' },
+  btnGhost: { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#111', marginTop: 6 },
   btnText: { color: '#fff', fontWeight: '900' },
+  btnTextDark: { color: '#111', fontWeight: '900' },
   row: { paddingVertical: 10, gap: 6, borderBottomWidth: 1, borderBottomColor: '#eee' },
   rowHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   rowTitle: { fontWeight: '800' },

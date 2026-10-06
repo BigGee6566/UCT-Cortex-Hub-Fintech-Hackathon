@@ -1,24 +1,60 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
-import { MOCK_TRANSACTIONS } from '@/services/mockFinance';
+import { router } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
+import type { GatedResult } from '@/services/consent.service';
+import { getTransactions } from '@/services/transactions.service';
 import type { Transaction } from '@/types/finance';
 
 type Filter = 'All' | 'Income' | 'Expenses';
 
 export default function Transactions() {
   const [filter, setFilter] = useState<Filter>('All');
+  const [result, setResult] = useState<GatedResult<Transaction[]> | null>(null);
+
+  // Re-check on focus: consent may have changed in the consent modal.
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
+      getTransactions().then((next) => {
+        if (active) setResult(next);
+      });
+      return () => {
+        active = false;
+      };
+    }, [])
+  );
+
+  const all = useMemo(() => (result?.status === 'ok' ? result.data : []), [result]);
 
   const data = useMemo(() => {
-    if (filter === 'Income') return MOCK_TRANSACTIONS.filter((t) => t.amount > 0);
-    if (filter === 'Expenses') return MOCK_TRANSACTIONS.filter((t) => t.amount < 0);
-    return MOCK_TRANSACTIONS;
-  }, [filter]);
+    if (filter === 'Income') return all.filter((t) => t.amount > 0);
+    if (filter === 'Expenses') return all.filter((t) => t.amount < 0);
+    return all;
+  }, [all, filter]);
 
   const totals = useMemo(() => {
-    const income = MOCK_TRANSACTIONS.filter((t) => t.amount > 0).reduce((a, b) => a + b.amount, 0);
-    const expenses = MOCK_TRANSACTIONS.filter((t) => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
+    const income = all.filter((t) => t.amount > 0).reduce((a, b) => a + b.amount, 0);
+    const expenses = all.filter((t) => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
     return { income, expenses };
-  }, []);
+  }, [all]);
+
+  if (result?.status === 'consent-required') {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Transactions</Text>
+        <View style={styles.locked}>
+          <Text style={styles.lockedTitle}>Transactions access is off</Text>
+          <Text style={styles.lockedText}>
+            Allow Mo’Mali to read your transactions to see your income and spending here.
+          </Text>
+          <Pressable style={styles.lockedButton} accessibilityRole="button" onPress={() => router.push('/modal')}>
+            <Text style={styles.lockedButtonText}>Allow access</Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -46,6 +82,7 @@ export default function Transactions() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 18 }}
         renderItem={({ item }) => <TxRow tx={item} />}
+        ListEmptyComponent={result === null ? <Text style={styles.rowMeta}>Loading transactions…</Text> : null}
       />
     </View>
   );
@@ -84,4 +121,9 @@ const styles = StyleSheet.create({
   amount: { fontWeight: '900' },
   income: { opacity: 0.9 },
   expense: { opacity: 0.9 },
+  locked: { borderWidth: 1, borderColor: '#ddd', borderRadius: 14, padding: 14, gap: 8 },
+  lockedTitle: { fontSize: 16, fontWeight: '900' },
+  lockedText: { opacity: 0.75, lineHeight: 20 },
+  lockedButton: { marginTop: 6, backgroundColor: '#111', paddingVertical: 12, borderRadius: 12, alignItems: 'center' },
+  lockedButtonText: { color: '#fff', fontWeight: '900' },
 });
