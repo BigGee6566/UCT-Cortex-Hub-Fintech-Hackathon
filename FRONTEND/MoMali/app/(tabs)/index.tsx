@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { router } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 import { getConsent } from '@/services/consent.service';
 import { getBudgets } from '@/services/budget.service';
 import { MOCK_TRANSACTIONS } from '@/services/mockFinance';
@@ -11,15 +12,30 @@ import type { Category } from '@/types/finance';
 export default function Dashboard() {
   const [consent, setConsent] = useState<ConsentState | null>(null);
   const [budgets, setBudgets] = useState<Record<Category, number> | null>(null);
+  const [loadError, setLoadError] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      setConsent(await getConsent());
-      setBudgets(await getBudgets());
-    }, 600);
+  // Refresh when the Dashboard comes into focus (first open, closing the consent
+  // modal, returning from Budgets) instead of polling storage every 600 ms.
+  useFocusEffect(
+    useCallback(() => {
+      let active = true; // drop results that arrive after the screen loses focus
 
-    return () => clearInterval(interval);
-  }, []);
+      Promise.all([getConsent(), getBudgets()])
+        .then(([nextConsent, nextBudgets]) => {
+          if (!active) return;
+          setConsent(nextConsent);
+          setBudgets(nextBudgets);
+          setLoadError(false);
+        })
+        .catch(() => {
+          if (active) setLoadError(true);
+        });
+
+      return () => {
+        active = false;
+      };
+    }, [])
+  );
 
   const health = useMemo(() => {
     if (!budgets) return null;
@@ -32,6 +48,12 @@ export default function Dashboard() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mo’Mali Dashboard</Text>
+
+      {loadError ? (
+        <Text style={styles.error} accessibilityLiveRegion="polite">
+          We couldn’t load your data. Your data is safe — please try again.
+        </Text>
+      ) : null}
 
       <View style={styles.card}>
         <Text style={styles.cardTitle}>{consentLabel}</Text>
@@ -76,6 +98,7 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 12 },
   title: { fontSize: 22, fontWeight: '900' },
+  error: { color: '#B3261E', fontWeight: '700' },
   card: { borderWidth: 1, borderColor: '#ddd', borderRadius: 14, padding: 14, gap: 8 },
   cardTitle: { fontSize: 16, fontWeight: '900' },
   cardSub: { opacity: 0.75, lineHeight: 20 },
