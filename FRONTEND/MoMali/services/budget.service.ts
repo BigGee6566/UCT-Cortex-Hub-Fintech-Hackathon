@@ -1,4 +1,4 @@
-import { getItem, setItem } from '@/services/storage';
+import { getData, isPlainObject, setItem } from '@/services/storage';
 import { DEFAULT_BUDGETS } from '@/services/mockFinance';
 import { sumExpensesByCategory } from '@/services/spending';
 import { CATEGORIES, type Budgets, type Category, type Transaction } from '@/types/finance';
@@ -22,13 +22,26 @@ export type BudgetFormResult =
   | { ok: true; budgets: Budgets }
   | { ok: false; errors: BudgetFormErrors };
 
-export async function getBudgets(): Promise<Record<Category, number>> {
-  const existing = await getItem<Record<Category, number>>(BUDGET_KEY);
-  return existing ?? DEFAULT_BUDGETS;
+export async function getBudgets(): Promise<Budgets> {
+  return getData(BUDGET_KEY, DEFAULT_BUDGETS, decodeBudgets);
 }
 
-export async function saveBudgets(budgets: Record<Category, number>): Promise<void> {
+export async function saveBudgets(budgets: Budgets): Promise<void> {
   await setItem(BUDGET_KEY, budgets);
+}
+
+// Validates stored budgets. A missing or invalid category falls back to its default,
+// which also migrates data saved before a category existed. Unknown keys are dropped.
+export function decodeBudgets(value: unknown): Budgets | null {
+  if (!isPlainObject(value)) return null;
+
+  return Object.fromEntries(
+    CATEGORIES.map((category) => {
+      const v = value[category];
+      const valid = typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= MAX_BUDGET;
+      return [category, valid ? v : DEFAULT_BUDGETS[category]];
+    })
+  ) as Budgets;
 }
 
 // Combines limits with spending from transactions, in the fixed category order.
