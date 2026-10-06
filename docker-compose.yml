@@ -1,0 +1,49 @@
+# Local development stack: PostgreSQL, a one-off migration job, and the API.
+#   cp .env.example .env   # then fill in the values
+#   docker compose up --build
+# API: http://localhost:8000 (interactive docs at /docs). Production adds the deferred pieces
+# (load balancer, read replicas, Redis, CDN) described in docs/architecture.md.
+name: momali
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: momali
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: momali
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432" # reachable from this machine only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U momali -d momali"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Runs once and exits. Keeping migrations out of the API containers means several
+  # API instances can start at the same time without racing on schema changes.
+  migrate:
+    build: ./backend
+    command: ["alembic", "upgrade", "head"]
+    environment: &api-environment
+      APP_ENV: development
+      DATABASE_URL: postgresql+psycopg://momali:${POSTGRES_PASSWORD}@db:5432/momali
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8081}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build: ./backend
+    environment: *api-environment
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  db-data:
