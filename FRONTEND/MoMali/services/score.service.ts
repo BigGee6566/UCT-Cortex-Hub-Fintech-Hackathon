@@ -1,3 +1,4 @@
+import { sumExpensesByCategory } from '@/services/spending';
 import type { Transaction, Category } from '@/types/finance';
 
 export type HealthScore = {
@@ -17,12 +18,7 @@ export function computeHealthScore(
   const savingsRate = income > 0 ? savings / income : 0;
 
   // category spend vs budget
-  const spendByCat: Record<string, number> = {};
-  for (const t of txs) {
-    if (t.amount < 0) {
-      spendByCat[t.category] = (spendByCat[t.category] ?? 0) + Math.abs(t.amount);
-    }
-  }
+  const spendByCat = sumExpensesByCategory(txs);
 
   // Budget utilisation: 1 when under budget; decreases when overspending
   const cats = Object.keys(budgets) as Category[];

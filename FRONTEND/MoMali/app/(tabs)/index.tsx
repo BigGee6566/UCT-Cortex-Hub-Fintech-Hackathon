@@ -58,7 +58,7 @@ export default function Dashboard() {
           </Text>
         )}
 
-        <Pressable style={[styles.btn, styles.btnGhost]} onPress={() => router.push('/(tabs)/coach')}>
+        <Pressable style={[styles.btn, styles.btnGhost]} onPress={() => router.navigate('/(tabs)/budgets')}>
           <Text style={[styles.btnText, styles.btnTextDark]}>Edit Budgets</Text>
         </Pressable>
       </View>
